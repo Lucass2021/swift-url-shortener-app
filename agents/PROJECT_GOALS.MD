@@ -27,7 +27,7 @@ Base URL: `http://localhost:3000` (local) or deploy URL on Railway/Render
 ### Endpoints the app will consume
 
 **Auth**
-- `POST /auth/register` — register with email and password
+- `POST /auth/register` — register with `name`, `email`, and `password` *(name added — requires backend update)*
 - `POST /auth/login` — login, returns `accessToken` + `refreshToken`
 - `POST /auth/refresh` — renews the accessToken using the refreshToken
 
@@ -56,13 +56,13 @@ Authorization: Bearer <accessToken>
 ### Authentication flow
 - **Welcome screen** — buttons for Login and Sign Up
 - **Login screen** — email and password fields, sign in button
-- **Sign up screen** — email and password fields, create account button
+- **Sign up screen** — name, email, and password fields, create account button
 
 ### Main flow (authenticated)
-- **Links list** — all user links, with code, original URL, clicks, and expiration
+- **Links list** — all user links, with code, original URL, clicks, and expiration; summary row at top with total clicks and active links count (computed client-side)
 - **Create link** — URL field, expiration picker (7 days / 30 days / never), shorten button
-- **Link detail** — full stats, copy short link button, delete button
-- **Profile / logout** — simple screen with user email and sign out button
+- **Link detail** — full stats, copy short link button, QR code (generated client-side via CoreImage), delete button
+- **Profile / logout** — user name and email, sign out button
 
 ---
 
@@ -96,6 +96,8 @@ Authorization: Bearer <accessToken>
 - Swipe to delete on links list
 - Pull to refresh on links list
 - Copy short link to clipboard button with visual feedback (animated checkmark)
+- QR code generation via `CoreImage` (no external libraries)
+- Dashboard totals (total clicks, active links) computed client-side from the links list
 
 ---
 
@@ -108,6 +110,7 @@ Authorization: Bearer <accessToken>
 5. **Automatic token refresh** — native auth interceptor (equivalent to axios interceptors)
 6. **Async/await in Swift** — modern concurrency without callbacks
 7. **Swift Concurrency** — `Task`, `MainActor`, cancellation
+8. **CoreImage** — QR code generation using native iOS framework
 
 ---
 
@@ -117,12 +120,14 @@ Authorization: Bearer <accessToken>
 |---|-------------|---------------|
 | 1 | Xcode project setup, MVVM folder structure, KeychainHelper | a few hours |
 | 2 | Networking layer: URLSession + Codable + error enum | half a day |
-| 3 | Login and sign up screens working with the real API | a weekend |
-| 4 | Automatic token refresh with pending request queue | + 1 day |
-| 5 | Links list with pull to refresh and swipe to delete | + 1 day |
-| 6 | Create link screen with expiration picker | + half a day |
-| 7 | Detail screen with stats and copy button | + half a day |
-| 8 | Polish: loading states, errors, animations, app icon | + 1 day |
+| 3 | Backend: add `name` field to register endpoint (NestJS) | ~30 min |
+| 4 | Login and sign up screens working with the real API | a weekend |
+| 5 | Automatic token refresh with pending request queue | + 1 day |
+| 6 | Links list with pull to refresh, swipe to delete, and dashboard totals | + 1 day |
+| 7 | Create link screen with expiration picker | + half a day |
+| 8 | Detail screen with stats, copy button, and QR code via CoreImage | + half a day |
+| 9 | Profile screen with name, email, and sign out | + half a day |
+| 10 | Polish: loading states, errors, animations, app icon | + 1 day |
 
 ---
 
@@ -162,6 +167,26 @@ URLShortenerApp/
     ├── User.swift
     └── AuthTokens.swift
 ```
+
+---
+
+## Extras (out of scope for now, implement after all milestones)
+
+Features intentionally deferred — good learning exercises if the developer wants to go further after completing the main milestones.
+
+### Passcode Protect
+Protect a short link with a 4-digit code. When someone accesses the short URL, the backend checks if a passcode is required before redirecting.
+
+**Backend changes needed (NestJS):**
+- Add optional `passcode` field to the `Link` entity
+- Accept `passcode` in `POST /links/shorten` body
+- Add validation in the redirect handler: if link has a passcode, check it before redirecting (new endpoint or query param)
+
+**iOS changes:**
+- Add optional passcode input in `CreateLinkView` (4-digit PIN field)
+- Show passcode entry sheet in `LinkDetailView` if the link is protected
+
+**Why it's a good exercise:** Teaches how to extend an existing NestJS entity, add validation middleware, and handle conditional UI states in SwiftUI.
 
 ---
 
