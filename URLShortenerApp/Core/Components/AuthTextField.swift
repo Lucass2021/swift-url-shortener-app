@@ -16,10 +16,10 @@ struct AuthTextField: View {
                 .frame(width: 20)
 
             if isSecure && !isRevealed {
-                SecureField(placeholder, text: $text)
+                SecureField(text: $text, prompt: Text(placeholder).foregroundStyle(.white)) {}
                     .focused($isFocused)
             } else {
-                TextField(placeholder, text: $text)
+                TextField(text: $text, prompt: Text(placeholder).foregroundStyle(.white)) {}
                     .focused($isFocused)
                     .keyboardType(isSecure ? .default : .emailAddress)
                     .textInputAutocapitalization(.never)
@@ -46,4 +46,14 @@ struct AuthTextField: View {
         )
         .foregroundStyle(Color.appTextPrimary)
     }
+}
+
+#Preview {
+    @Previewable @State var text = ""
+    VStack(spacing: 16) {
+        AuthTextField(placeholder: "name@company.com", icon: "envelope", text: $text)
+        AuthTextField(placeholder: "••••••••", icon: "lock", text: $text, isSecure: true)
+    }
+    .padding()
+    .background(Color.appBackground)
 }

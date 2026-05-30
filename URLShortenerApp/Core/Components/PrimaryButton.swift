@@ -26,3 +26,12 @@ struct PrimaryButton: View {
         .buttonStyle(.plain)
     }
 }
+
+#Preview {
+    VStack(spacing: 16) {
+        PrimaryButton(title: "Sign In") {}
+        PrimaryButton(title: "Loading", isLoading: true) {}
+    }
+    .padding()
+    .background(Color.appBackground)
+}

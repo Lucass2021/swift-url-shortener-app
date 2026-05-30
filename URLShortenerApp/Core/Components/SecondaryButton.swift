@@ -21,3 +21,9 @@ struct SecondaryButton: View {
         .buttonStyle(.plain)
     }
 }
+
+#Preview {
+    SecondaryButton(title: "Create Account") {}
+        .padding()
+        .background(Color.appBackground)
+}
