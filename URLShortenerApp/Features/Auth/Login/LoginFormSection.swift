@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct LoginFormSection: View {
-    @Bindable var vm: LoginViewModel
+    @Bindable var viewModel: LoginViewModel
 
     var body: some View {
         VStack(spacing: 16) {
@@ -13,7 +13,8 @@ struct LoginFormSection: View {
                 AuthTextField(
                     placeholder: "name@company.com",
                     icon: "envelope",
-                    text: $vm.email
+                    text: $viewModel.email,
+                    error: viewModel.emailError
                 )
             }
 
@@ -29,8 +30,9 @@ struct LoginFormSection: View {
                 AuthTextField(
                     placeholder: "••••••••",
                     icon: "lock",
-                    text: $vm.password,
-                    isSecure: true
+                    text: $viewModel.password,
+                    isSecure: true,
+                    error: viewModel.passwordError
                 )
 
                 Button("Forgot Password?") {}
@@ -45,8 +47,8 @@ struct LoginFormSection: View {
 }
 
 #Preview {
-    @Previewable @State var vm = LoginViewModel()
-    LoginFormSection(vm: vm)
+    @Previewable @State var viewModel = LoginViewModel()
+    LoginFormSection(viewModel: viewModel)
         .padding()
         .background(Color.appBackground)
 }

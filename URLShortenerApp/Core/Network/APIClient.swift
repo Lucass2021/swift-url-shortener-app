@@ -9,7 +9,7 @@ actor APIClient {
     private init() {}
 
     func request<T: Decodable>(_ endpoint: Endpoint, body: Encodable? = nil, token: String? = nil) async throws -> T {
-        guard var urlRequest = endpoint.urlRequest(baseURL: baseURL) else {
+        guard var urlRequest = await MainActor.run(body: { endpoint.urlRequest(baseURL: baseURL) }) else {
             throw APIError.networkFailure
         }
 

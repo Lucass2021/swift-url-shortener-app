@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WelcomeLogoSection: View {
+struct RegisterLogoSection: View {
     var body: some View {
         VStack(spacing: 20) {
             ZStack {
@@ -18,14 +18,21 @@ struct WelcomeLogoSection: View {
             }
 
             VStack(spacing: 8) {
-                Text("LinkShort")
+                Text("Join LinkShort")
                     .font(.system(size: 34, weight: .bold))
                     .foregroundStyle(Color.appTextPrimary)
 
-                Text("Shorten. Share. Track.")
+                Text("Create an account to start managing your \nlinks with precision.")
                     .font(.subheadline)
                     .foregroundStyle(Color.appTextPrimary)
+                    .multilineTextAlignment(.center)
             }
         }
     }
+}
+
+#Preview {
+    RegisterLogoSection()
+        .padding()
+        .background(Color.appBackground)
 }

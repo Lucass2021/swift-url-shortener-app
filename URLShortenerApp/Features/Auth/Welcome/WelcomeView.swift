@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct WelcomeView: View {
-    @State private var showLogin    = false
+    @State private var showLogin = false
     @State private var showRegister = false
 
     var body: some View {
@@ -26,8 +26,8 @@ struct WelcomeView: View {
                 .padding(.bottom, 32)
             }
             .navigationBarHidden(true)
-            .navigationDestination(isPresented: $showLogin)    { LoginView() }
-            // .navigationDestination(isPresented: $showRegister) { RegisterView() }
+            .navigationDestination(isPresented: $showLogin) { LoginView() }
+            .navigationDestination(isPresented: $showRegister) { RegisterView() }
         }
     }
 }

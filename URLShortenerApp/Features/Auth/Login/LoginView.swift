@@ -1,31 +1,32 @@
 import SwiftUI
 
 struct LoginView: View {
-    @State private var vm = LoginViewModel()
+    @State private var viewModel = LoginViewModel()
+    @State private var showRegister = false
 
     var body: some View {
-        NavigationStack {
-            ZStack {
-                Color.appBackground.ignoresSafeArea()
+        ZStack {
+            Color.appBackground.ignoresSafeArea()
 
-                VStack(spacing: 0) {
-                    Spacer()
+            VStack(spacing: 0) {
+                Spacer()
 
-                    LoginLogoSection()
+                LoginLogoSection()
 
-                    Spacer().frame(height: 48)
+                Spacer().frame(height: 48)
 
-                    LoginFormSection(vm: vm)
+                LoginFormSection(viewModel: viewModel)
 
-                    Spacer()
+                Spacer()
 
-                    LoginBottomSection(vm: vm)
-                }
-                .padding(.horizontal, 20)
-                .padding(.bottom, 32)
+                LoginBottomSection(viewModel: viewModel, showRegister: $showRegister)
             }
-            .navigationBarHidden(true)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 32)
         }
+        .navigationBarHidden(true)
+        .navigationDestination(isPresented: $showRegister) { RegisterView() }
+        .toast(message: $viewModel.errorMessage)
     }
 }
 

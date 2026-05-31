@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct LoginBottomSection: View {
-    var vm: LoginViewModel
+    var viewModel: LoginViewModel
+    @Binding var showRegister: Bool
 
     var body: some View {
         VStack(spacing: 12) {
             PrimaryButton(title: "Sign In") {
-                Task { await vm.signIn() }
+                Task { await viewModel.signIn() }
             }
 
             Text("Don't have an account? \(Text("Sign Up").bold().foregroundStyle(Color.appPrimary))")
@@ -14,12 +15,15 @@ struct LoginBottomSection: View {
                 .foregroundStyle(Color.appTextSecondary)
                 .multilineTextAlignment(.center)
                 .padding(.top, 4)
+                .onTapGesture {
+                    showRegister = true
+                }
         }
     }
 }
 
 #Preview {
-    LoginBottomSection(vm: LoginViewModel())
+    LoginBottomSection(viewModel: LoginViewModel(), showRegister: .constant(false))
         .padding()
         .background(Color.appBackground)
 }
