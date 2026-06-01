@@ -1,8 +1,9 @@
 import SwiftUI
 
+@MainActor
 @Observable
 class RegisterViewModel {
-    var fullName = ""
+    var name = ""
     var email = ""
     var password = ""
     var confirmPassword = ""
@@ -10,9 +11,9 @@ class RegisterViewModel {
     var errorMessage: String?
     private var submitted = false
 
-    var fullNameError: String? {
+    var nameError: String? {
         guard submitted else { return nil }
-        if fullName.trimmingCharacters(in: .whitespaces).isEmpty { return "Full name is required" }
+        if name.trimmingCharacters(in: .whitespaces).isEmpty { return "Full name is required" }
         return nil
     }
 
@@ -36,12 +37,16 @@ class RegisterViewModel {
         return nil
     }
 
-    func signUp() async {
+    func signUp(authStore: AuthStore) async {
         submitted = true
-        guard fullNameError == nil, emailError == nil, passwordError == nil, confirmPasswordError == nil else { return }
+        guard nameError == nil, emailError == nil, passwordError == nil, confirmPasswordError == nil else { return }
         isLoading = true
-        // TODO: conectar to POST /auth/register
-        print("handle signUp")
-        isLoading = false
+        defer { isLoading = false }
+        do {
+            let tokens = try await AuthService.register(name: name, email: email, password: password)
+            authStore.saveTokens(tokens)
+        } catch {
+            errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription
+        }
     }
 }

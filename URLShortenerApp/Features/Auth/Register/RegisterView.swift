@@ -38,4 +38,5 @@ struct RegisterView: View {
     NavigationStack {
         RegisterView()
     }
+    .environment(AuthStore())
 }

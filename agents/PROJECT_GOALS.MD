@@ -153,8 +153,8 @@ URLShortenerApp/
 │   │   ├── LoginViewModel.swift
 │   │   ├── RegisterView.swift
 │   │   └── RegisterViewModel.swift
-│   ├── Links/
-│   │   ├── LinksListView.swift
+│   ├── App/
+│   │   ├── AppView.swift
 │   │   ├── LinksListViewModel.swift
 │   │   ├── CreateLinkView.swift
 │   │   ├── CreateLinkViewModel.swift

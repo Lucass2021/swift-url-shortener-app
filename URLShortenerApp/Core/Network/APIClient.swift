@@ -1,5 +1,32 @@
 import Foundation
 
+private struct NestErrorBody: Decodable {
+    let message: MessageValue
+
+    var firstMessage: String { message.text }
+
+    enum MessageValue: Decodable {
+        case single(String)
+        case multiple([String])
+
+        init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            if let string = try? container.decode(String.self) {
+                self = .single(string)
+            } else {
+                self = .multiple((try? container.decode([String].self)) ?? ["Request failed"])
+            }
+        }
+
+        var text: String {
+            switch self {
+            case .single(let string): return string
+            case .multiple(let strings): return strings.first ?? "Request failed"
+            }
+        }
+    }
+}
+
 actor APIClient {
     static let shared = APIClient()
 
@@ -29,6 +56,12 @@ actor APIClient {
 
         guard (200..<300).contains(httpResponse.statusCode) else {
             let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After").flatMap(Int.init)
+
+            if [400, 409, 422].contains(httpResponse.statusCode),
+               let body = try? JSONDecoder().decode(NestErrorBody.self, from: data) {
+                throw APIError.badRequest(body.firstMessage)
+            }
+
             throw APIError(statusCode: httpResponse.statusCode, retryAfter: retryAfter)
         }
 

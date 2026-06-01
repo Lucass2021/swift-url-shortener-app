@@ -5,6 +5,7 @@ struct AuthTextField: View {
     let icon: String
     @Binding var text: String
     var isSecure: Bool = false
+    var contentType: UITextContentType? = nil
     var error: String? = nil
 
     @State private var isRevealed = false
@@ -29,12 +30,14 @@ struct AuthTextField: View {
                 if isSecure && !isRevealed {
                     SecureField(text: $text, prompt: Text(placeholder).foregroundStyle(.white)) {}
                         .focused($isFocused)
+                        .textContentType(contentType)
                 } else {
                     TextField(text: $text, prompt: Text(placeholder).foregroundStyle(.white)) {}
                         .focused($isFocused)
                         .keyboardType(isSecure ? .default : .emailAddress)
                         .textInputAutocapitalization(.never)
                         .autocorrectionDisabled()
+                        .textContentType(contentType)
                 }
 
                 if isSecure {

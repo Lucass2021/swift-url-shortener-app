@@ -13,8 +13,8 @@ struct RegisterFormSection: View {
                 AuthTextField(
                     placeholder: "John Doe",
                     icon: "person",
-                    text: $viewModel.fullName,
-                    error: viewModel.fullNameError
+                    text: $viewModel.name,
+                    error: viewModel.nameError
                 )
             }
 
@@ -41,6 +41,7 @@ struct RegisterFormSection: View {
                     icon: "lock",
                     text: $viewModel.password,
                     isSecure: true,
+                    contentType: .newPassword,
                     error: viewModel.passwordError
                 )
             }
@@ -55,6 +56,7 @@ struct RegisterFormSection: View {
                     icon: "lock",
                     text: $viewModel.confirmPassword,
                     isSecure: true,
+                    contentType: .newPassword,
                     error: viewModel.confirmPasswordError
                 )
             }

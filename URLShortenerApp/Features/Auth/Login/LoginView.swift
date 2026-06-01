@@ -31,5 +31,8 @@ struct LoginView: View {
 }
 
 #Preview {
-    LoginView()
+    NavigationStack {
+        LoginView()
+    }
+    .environment(AuthStore())
 }

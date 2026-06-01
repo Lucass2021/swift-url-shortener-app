@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 @Observable
 class LoginViewModel {
     var email = ""
@@ -22,12 +23,16 @@ class LoginViewModel {
         return nil
     }
 
-    func signIn() async {
+    func signIn(authStore: AuthStore) async {
         submitted = true
         guard emailError == nil, passwordError == nil else { return }
         isLoading = true
-        // TODO: conect to POST /auth/login
-        print("handle signIn")
-        isLoading = false
+        defer { isLoading = false }
+        do {
+            let tokens = try await AuthService.login(email: email, password: password)
+            authStore.saveTokens(tokens)
+        } catch {
+            errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription
+        }
     }
 }

@@ -32,6 +32,7 @@ struct LoginFormSection: View {
                     icon: "lock",
                     text: $viewModel.password,
                     isSecure: true,
+                    contentType: .password,
                     error: viewModel.passwordError
                 )
 

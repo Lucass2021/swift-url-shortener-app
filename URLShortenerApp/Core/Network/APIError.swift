@@ -1,13 +1,14 @@
 import Foundation
 
 enum APIError: LocalizedError {
-    case unauthorized       
-    case linkExpired       
-    case rateLimited(retryAfter: Int?) 
-    case notFound             
-    case serverError        
-    case networkFailure      
-    case decodingFailure     
+    case unauthorized
+    case linkExpired
+    case rateLimited(retryAfter: Int?)
+    case notFound
+    case serverError
+    case networkFailure
+    case decodingFailure
+    case badRequest(String)
     case unknown(statusCode: Int)
 
     init(statusCode: Int, retryAfter: Int? = nil) {
@@ -40,6 +41,8 @@ enum APIError: LocalizedError {
             return "No internet connection. Check your network and try again."
         case .decodingFailure:
             return "Unexpected response from the server."
+        case .badRequest(let message):
+            return message
         case .unknown(let code):
             return "Unexpected error (code \(code))."
         }
