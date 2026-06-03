@@ -4,6 +4,7 @@ import SwiftUI
 @Observable
 class AuthStore {
     private(set) var isAuthenticated: Bool
+    var pendingToast: String?
 
     init() {
         isAuthenticated = KeychainHelper.getAccessToken() != nil

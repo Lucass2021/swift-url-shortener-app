@@ -3,6 +3,7 @@ import SwiftUI
 struct LoginView: View {
     @State private var viewModel = LoginViewModel()
     @State private var showRegister = false
+    @State private var showForgotPassword = false
 
     var body: some View {
         ZStack {
@@ -15,7 +16,7 @@ struct LoginView: View {
 
                 Spacer().frame(height: 48)
 
-                LoginFormSection(viewModel: viewModel)
+                LoginFormSection(viewModel: viewModel, showForgotPassword: $showForgotPassword)
 
                 Spacer()
 
@@ -26,6 +27,7 @@ struct LoginView: View {
         }
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $showRegister) { RegisterView() }
+        .navigationDestination(isPresented: $showForgotPassword) { ForgotPasswordView() }
         .toast(message: $viewModel.errorMessage)
     }
 }

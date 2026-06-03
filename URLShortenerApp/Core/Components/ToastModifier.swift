@@ -1,7 +1,20 @@
 import SwiftUI
 
+enum ToastStyle {
+    case error
+    case success
+
+    var color: Color {
+        switch self {
+        case .error:   return Color.red.opacity(0.9)
+        case .success: return Color.green.opacity(0.85)
+        }
+    }
+}
+
 private struct ToastView: View {
     let message: String
+    let style: ToastStyle
 
     var body: some View {
         Text(message)
@@ -9,7 +22,7 @@ private struct ToastView: View {
             .foregroundStyle(.white)
             .padding(.horizontal, 16)
             .padding(.vertical, 12)
-            .background(Color.red.opacity(0.9))
+            .background(style.color)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .shadow(radius: 4)
             .padding(.horizontal, 20)
@@ -18,12 +31,13 @@ private struct ToastView: View {
 
 private struct ToastModifier: ViewModifier {
     @Binding var message: String?
+    let style: ToastStyle
 
     func body(content: Content) -> some View {
         ZStack(alignment: .top) {
             content
             if let message {
-                ToastView(message: message)
+                ToastView(message: message, style: style)
                     .transition(.move(edge: .top).combined(with: .opacity))
                     .padding(.top, 60)
                     .zIndex(1)
@@ -39,7 +53,7 @@ private struct ToastModifier: ViewModifier {
 }
 
 extension View {
-    func toast(message: Binding<String?>) -> some View {
-        modifier(ToastModifier(message: message))
+    func toast(message: Binding<String?>, style: ToastStyle = .error) -> some View {
+        modifier(ToastModifier(message: message, style: style))
     }
 }

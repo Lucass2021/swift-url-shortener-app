@@ -3,8 +3,10 @@ import SwiftUI
 struct WelcomeView: View {
     @State private var showLogin = false
     @State private var showRegister = false
+    @Environment(AuthStore.self) private var authStore
 
     var body: some View {
+        @Bindable var authStore = authStore
         NavigationStack {
             ZStack {
                 Color.appBackground.ignoresSafeArea()
@@ -29,6 +31,7 @@ struct WelcomeView: View {
             .navigationDestination(isPresented: $showLogin) { LoginView() }
             .navigationDestination(isPresented: $showRegister) { RegisterView() }
         }
+        .toast(message: $authStore.pendingToast, style: .success)
     }
 }
 

@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LoginFormSection: View {
     @Bindable var viewModel: LoginViewModel
+    @Binding var showForgotPassword: Bool
 
     var body: some View {
         VStack(spacing: 16) {
@@ -36,7 +37,9 @@ struct LoginFormSection: View {
                     error: viewModel.passwordError
                 )
 
-                Button("Forgot Password?") {}
+                Button("Forgot Password?") {
+                        showForgotPassword = true
+                    }
                     .font(.default)
                     .foregroundStyle(Color.appPrimary)
                     .buttonStyle(.plain)
@@ -49,7 +52,8 @@ struct LoginFormSection: View {
 
 #Preview {
     @Previewable @State var viewModel = LoginViewModel()
-    LoginFormSection(viewModel: viewModel)
+    @Previewable @State var showForgotPassword = false
+    LoginFormSection(viewModel: viewModel, showForgotPassword: $showForgotPassword)
         .padding()
         .background(Color.appBackground)
 }

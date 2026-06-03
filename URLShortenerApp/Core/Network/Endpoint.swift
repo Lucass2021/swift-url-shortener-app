@@ -1,8 +1,8 @@
 import Foundation
 
 enum HTTPMethod: String {
-    case get    = "GET"
-    case post   = "POST"
+    case get = "GET"
+    case post = "POST"
     case delete = "DELETE"
 }
 
@@ -10,6 +10,9 @@ enum Endpoint {
     case register
     case login
     case refresh
+    case forgotPassword
+    case verifyResetCode
+    case resetPassword
 
     case shortenLink
     case myLinks
@@ -19,19 +22,22 @@ enum Endpoint {
 
     var path: String {
         switch self {
-        case .register:             return "/auth/register"
-        case .login:                return "/auth/login"
-        case .refresh:              return "/auth/refresh"
-        case .shortenLink:          return "/links/shorten"
-        case .myLinks:              return "/links/me/links"
-        case .deleteLink(let code): return "/links/\(code)"
-        case .linkStats(let code):  return "/\(code)/stats"
+        case .register: return "/auth/register"
+        case .login: return "/auth/login"
+        case .refresh: return "/auth/refresh"
+        case .forgotPassword: return "/auth/forgot-password"
+        case .verifyResetCode: return "/auth/verify-reset-code"
+        case .resetPassword: return "/auth/reset-password"
+        case .shortenLink: return "/links/shorten"
+        case .myLinks: return "/links/me/links"
+        case let .deleteLink(code): return "/links/\(code)"
+        case let .linkStats(code): return "/\(code)/stats"
         }
     }
 
     var method: HTTPMethod {
         switch self {
-        case .register, .login, .refresh, .shortenLink:
+        case .register, .login, .refresh, .shortenLink, .forgotPassword, .verifyResetCode, .resetPassword:
             return .post
         case .deleteLink:
             return .delete
