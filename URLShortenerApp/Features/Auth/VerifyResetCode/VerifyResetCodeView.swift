@@ -29,9 +29,9 @@ struct VerifyResetCodeView: View {
             .padding(.bottom, 32)
         }
         .navigationBarHidden(true)
-        // .navigationDestination(isPresented: $viewModel.showResetPassword) {
-        //     ResetPasswordView(resetToken: viewModel.resetToken ?? "")
-        // }
+        .navigationDestination(isPresented: $viewModel.showResetPassword) {
+            ResetPasswordView(resetToken: viewModel.resetToken ?? "")
+        }
         .toast(message: $viewModel.errorMessage)
     }
 }

@@ -32,6 +32,11 @@ struct WelcomeView: View {
             .navigationDestination(isPresented: $showRegister) { RegisterView() }
         }
         .toast(message: $authStore.pendingToast, style: .success)
+        .onChange(of: authStore.didResetPassword) { _, triggered in
+            guard triggered else { return }
+            showLogin = false
+            authStore.didResetPassword = false
+        }
     }
 }
 

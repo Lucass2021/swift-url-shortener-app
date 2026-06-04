@@ -5,6 +5,7 @@ import SwiftUI
 class AuthStore {
     private(set) var isAuthenticated: Bool
     var pendingToast: String?
+    var didResetPassword = false
 
     init() {
         isAuthenticated = KeychainHelper.getAccessToken() != nil
