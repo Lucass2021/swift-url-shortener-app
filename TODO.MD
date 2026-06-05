@@ -1,14 +1,5 @@
-### NEXT
-- [ ] **Milestone 5 — Automatic token refresh**
-- Interceptor that detects 401 and calls POST /auth/refresh automatically
-- Queue pending requests during refresh (no parallel refresh calls)
-- Redirect to login if refresh fails
-
-- [ ] **Milestone 6 — Links list** (AppView)
-- Fetch and display user links (GET /links/me/links)
-- Pull to refresh
-- Swipe to delete (DELETE /links/:code)
-- Dashboard row: total clicks + active links count (computed client-side)
+### NEXT 
+# Finish app screen layout
 
 - [ ] **Milestone 7 — Create link**
 - URL input field
@@ -40,3 +31,4 @@
 # Apply Toast for global usage
 # Create input component?
 # Clean var names and english only
+# Add Canvas preview in everything?

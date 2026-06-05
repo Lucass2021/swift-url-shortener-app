@@ -3,7 +3,9 @@ import Foundation
 private struct NestErrorBody: Decodable {
     let message: MessageValue
 
-    var firstMessage: String { message.text }
+    var firstMessage: String {
+        message.text
+    }
 
     enum MessageValue: Decodable {
         case single(String)
@@ -20,8 +22,8 @@ private struct NestErrorBody: Decodable {
 
         var text: String {
             switch self {
-            case .single(let string): return string
-            case .multiple(let strings): return strings.first ?? "Request failed"
+            case let .single(string): return string
+            case let .multiple(strings): return strings.first ?? "Request failed"
             }
         }
     }
@@ -32,11 +34,77 @@ actor APIClient {
 
     private let baseURL = Config.baseURL
     private let session = URLSession.shared
+    private var refreshTask: Task<AuthTokens, Error>?
+    private var onRefreshFailure: (@Sendable () -> Void)?
+    private let decoder: JSONDecoder = {
+        let jsonDecoder = JSONDecoder()
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        jsonDecoder.dateDecodingStrategy = .custom { decoder in
+            let container = try decoder.singleValueContainer()
+            let string = try container.decode(String.self)
+            guard let date = formatter.date(from: string) else {
+                throw DecodingError.dataCorruptedError(
+                    in: container,
+                    debugDescription: "Invalid date: \(string)"
+                )
+            }
+            return date
+        }
+        return jsonDecoder
+    }()
 
     private init() {}
 
-    func request<T: Decodable>(_ endpoint: Endpoint, body: Encodable? = nil, token: String? = nil) async throws -> T {
-        guard var urlRequest = await MainActor.run(body: { endpoint.urlRequest(baseURL: baseURL) }) else {
+    func setRefreshFailureHandler(_ handler: @escaping @Sendable () -> Void) {
+        onRefreshFailure = handler
+    }
+
+    func request<T: Decodable>(_ endpoint: Endpoint, body: Encodable? = nil) async throws -> T {
+        let token = endpoint.requiresAuth ? KeychainHelper.getAccessToken() : nil
+
+        do {
+            return try await perform(endpoint, body: body, token: token)
+        } catch APIError.unauthorized {
+            guard endpoint.requiresAuth else { throw APIError.unauthorized }
+            let newTokens = try await refreshTokens()
+            return try await perform(endpoint, body: body, token: newTokens.accessToken)
+        }
+    }
+
+    private func refreshTokens() async throws -> AuthTokens {
+        if let existing = refreshTask {
+            return try await existing.value
+        }
+
+        let task = Task<AuthTokens, Error> {
+            guard let refreshToken = KeychainHelper.getRefreshToken() else {
+                throw APIError.unauthorized
+            }
+            let tokens: AuthTokens = try await self.perform(
+                .refresh,
+                body: RefreshRequest(refreshToken: refreshToken),
+                token: nil
+            )
+            KeychainHelper.saveAccessToken(tokens.accessToken)
+            KeychainHelper.saveRefreshToken(tokens.refreshToken)
+            return tokens
+        }
+        refreshTask = task
+
+        do {
+            let tokens = try await task.value
+            refreshTask = nil
+            return tokens
+        } catch {
+            refreshTask = nil
+            onRefreshFailure?()
+            throw APIError.unauthorized
+        }
+    }
+
+    private func perform<T: Decodable>(_ endpoint: Endpoint, body: Encodable? = nil, token: String? = nil) async throws -> T {
+        guard var urlRequest = endpoint.urlRequest(baseURL: baseURL) else {
             throw APIError.networkFailure
         }
 
@@ -54,11 +122,12 @@ actor APIClient {
             throw APIError.networkFailure
         }
 
-        guard (200..<300).contains(httpResponse.statusCode) else {
+        guard (200 ..< 300).contains(httpResponse.statusCode) else {
             let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After").flatMap(Int.init)
 
             if [400, 409, 422].contains(httpResponse.statusCode),
-               let body = try? JSONDecoder().decode(NestErrorBody.self, from: data) {
+               let body = try? JSONDecoder().decode(NestErrorBody.self, from: data)
+            {
                 throw APIError.badRequest(body.firstMessage)
             }
 
@@ -66,7 +135,7 @@ actor APIClient {
         }
 
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            return try decoder.decode(T.self, from: data)
         } catch {
             throw APIError.decodingFailure
         }

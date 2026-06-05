@@ -9,6 +9,13 @@ class AuthStore {
 
     init() {
         isAuthenticated = KeychainHelper.getAccessToken() != nil
+        Task { [weak self] in
+            await APIClient.shared.setRefreshFailureHandler { [weak self] in
+                Task { @MainActor [weak self] in
+                    self?.logout()
+                }
+            }
+        }
     }
 
     func saveTokens(_ tokens: AuthTokens) {

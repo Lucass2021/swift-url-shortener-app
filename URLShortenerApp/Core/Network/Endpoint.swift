@@ -46,6 +46,16 @@ enum Endpoint {
         }
     }
 
+    var requiresAuth: Bool {
+        switch self {
+        case .register, .login, .refresh,
+             .forgotPassword, .verifyResetCode, .resetPassword:
+            return false
+        case .shortenLink, .myLinks, .deleteLink, .linkStats:
+            return true
+        }
+    }
+
     func urlRequest(baseURL: String) -> URLRequest? {
         guard let url = URL(string: baseURL + path) else { return nil }
         var request = URLRequest(url: url)
