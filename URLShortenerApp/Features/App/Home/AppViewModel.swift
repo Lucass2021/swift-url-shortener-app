@@ -7,6 +7,7 @@ class AppViewModel {
     var links: [Link] = []
     var isLoading = false
     var errorMessage: String?
+    var deleteError: String?
 
     var totalClicks: Int {
         links.reduce(0) { $0 + $1.clicks }
@@ -28,11 +29,12 @@ class AppViewModel {
         isLoading = false
     }
 
-    func delete(at offsets: IndexSet) async {
-        let codesToDelete = offsets.map { links[$0].code }
-        links.remove(atOffsets: offsets)
-        for code in codesToDelete {
-            try? await AppService.deleteLink(code: code)
+    func delete(_ link: Link) async {
+        do {
+            try await AppService.deleteLink(code: link.code)
+            links.removeAll { $0.id == link.id }
+        } catch {
+            deleteError = (error as? APIError)?.errorDescription ?? "Failed to delete link."
         }
     }
 }

@@ -11,17 +11,20 @@ struct AppView: View {
                 Color.appBackgroundApp.ignoresSafeArea()
 
                 if viewModel.isLoading && viewModel.links.isEmpty {
-                    ProgressView()
-                        .tint(.white)
+                    HomeSkeletonView()
                 } else if let error = viewModel.errorMessage {
-                    Text(error)
-                        .foregroundStyle(.red)
-                        .padding()
+                    AppErrorView(message: error) {
+                        Task { await viewModel.load() }
+                    }
+                } else if viewModel.links.isEmpty {
+                    AppEmptyStateView()
                 } else {
                     List {
                         AppDashboardSection(viewModel: viewModel)
                         AppLinksSection(viewModel: viewModel)
                     }
+                    .contentMargins(.bottom, 120, for: .scrollContent)
+                    .listSectionSpacing(20)
                     .scrollContentBackground(.hidden)
                     .refreshable { await viewModel.load() }
                 }
@@ -39,6 +42,7 @@ struct AppView: View {
                     .padding(.bottom, 32)
             }
             .task { await viewModel.load() }
+            .toast(message: $viewModel.deleteError, style: .error)
         }
     }
 }

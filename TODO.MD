@@ -1,5 +1,7 @@
 ### NEXT 
-# Finish app screen layout
+# Expire date in creating a new link (Backend)
+# Improve error messages in backend (delete code eg)
+# Research: Look a like components in auth flow should become a Core component with custom props?
 
 - [ ] **Milestone 7 — Create link**
 - URL input field
@@ -25,10 +27,6 @@
 # Check if i'm following switch code patterns correctly
 # Make variables and props names more clear
 # Test form with keyboard visible
-# Save token and use refresh token automatically
-# Forgot password in Api
 # Add Terms of use
-# Apply Toast for global usage
-# Create input component?
-# Clean var names and english only
+# Create input component (auth screens eg)?
 # Add Canvas preview in everything?

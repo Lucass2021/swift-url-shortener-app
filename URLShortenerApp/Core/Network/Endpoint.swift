@@ -60,7 +60,6 @@ enum Endpoint {
         guard let url = URL(string: baseURL + path) else { return nil }
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         return request
     }
 }
