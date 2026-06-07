@@ -1,7 +1,7 @@
 ### NEXT 
-# Expire date in creating a new link (Backend)
-# Improve error messages in backend (delete code eg)
+# Fix Go Back Header Blinking issue if possible
 # Research: Look a like components in auth flow should become a Core component with custom props?
+# Remove else if
 
 - [ ] **Milestone 7 — Create link**
 - URL input field
@@ -30,3 +30,5 @@
 # Add Terms of use
 # Create input component (auth screens eg)?
 # Add Canvas preview in everything?
+# Apply "Eslint", "Prettier", Tests and Husky type of quality control
+# Check for missing quality patterns in this project comparing with my React Native Projects.

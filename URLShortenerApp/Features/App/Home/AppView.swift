@@ -4,6 +4,7 @@ struct AppView: View {
     @Environment(AuthStore.self) private var authStore
     @State private var viewModel = AppViewModel()
     @State private var showProfile = false
+    @State private var showCreateLink = false
 
     var body: some View {
         NavigationStack {
@@ -38,11 +39,16 @@ struct AppView: View {
                     .environment(authStore)
             }
             .overlay(alignment: .bottom) {
-                AppAddButton()
+                AppAddButton { showCreateLink = true }
                     .padding(.bottom, 32)
             }
             .task { await viewModel.load() }
             .toast(message: $viewModel.deleteError, style: .error)
+            .navigationDestination(isPresented: $showCreateLink) {
+                CreateLinkView {
+                    Task { await viewModel.load() }
+                }
+            }
         }
     }
 }

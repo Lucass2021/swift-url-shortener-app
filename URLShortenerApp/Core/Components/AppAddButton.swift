@@ -1,10 +1,10 @@
 import SwiftUI
 
 struct AppAddButton: View {
+    let action: () -> Void
+
     var body: some View {
-        Button {
-            print("AppAddButton tapped")
-        } label: {
+        Button(action: action) {
             Image(systemName: "plus")
                 .font(.title2.bold())
                 .foregroundStyle(.white)

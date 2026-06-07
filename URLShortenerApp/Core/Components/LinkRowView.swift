@@ -7,6 +7,24 @@ struct LinkRowView: View {
         URL(string: Config.baseURL)?.host ?? ""
     }
 
+    private var expirationText: String {
+        guard let expiresAt = link.expiresAt else { return "Never expires" }
+        if expiresAt < .now { return "Expired" }
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .full
+        return "Expires " + formatter.localizedString(for: expiresAt, relativeTo: .now)
+    }
+
+    private var expirationColor: Color {
+        guard let expiresAt = link.expiresAt else { return Color.appTextSecondary }
+        return expiresAt < .now ? Color.appDestructive : Color.appTertiary
+    }
+
+    private var expirationIcon: String {
+        guard let expiresAt = link.expiresAt else { return "infinity" }
+        return expiresAt < .now ? "clock.badge.xmark" : "clock"
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("\(shortDomain)/\(link.code)")
@@ -27,11 +45,11 @@ struct LinkRowView: View {
                 .foregroundStyle(.white)
 
                 HStack(spacing: 4) {
-                    Image(systemName: "clock")
-                    Text("Expires in 30 days")
+                    Image(systemName: expirationIcon)
+                    Text(expirationText)
                 }
                 .font(.caption)
-                .foregroundStyle(Color.appTertiary)
+                .foregroundStyle(expirationColor)
             }
         }
         .padding(16)
