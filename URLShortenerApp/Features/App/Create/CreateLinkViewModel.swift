@@ -19,6 +19,11 @@ enum ExpirationOption: String, CaseIterable {
 class CreateLinkViewModel {
     var url = ""
     var selectedExpiration = ExpirationOption.never
+
+    var generateQR = false
+    var passcodeEnabled = false
+    var passcode = ""
+
     var isLoading = false
     var urlError: String?
     var errorMessage: String?
@@ -33,11 +38,17 @@ class CreateLinkViewModel {
         }
         urlError = nil
 
+        if passcodeEnabled, passcode.count < 4 {
+            errorMessage = "Enter a 4-digit passcode."
+            return
+        }
+
         isLoading = true
         defer { isLoading = false }
         do {
             let expiration = selectedExpiration == .never ? nil : selectedExpiration.rawValue
-            let request = ShortenRequest(url: url, expiration: expiration)
+            let passcodeValue = passcodeEnabled && passcode.count == 4 ? passcode : nil
+            let request = ShortenRequest(url: url, expiration: expiration, passcode: passcodeValue)
             _ = try await AppService.shortenLink(request)
             didSucceed = true
         } catch {

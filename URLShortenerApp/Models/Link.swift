@@ -6,12 +6,13 @@ struct Link: Decodable, Identifiable {
     let clicks: Int
     let createdAt: Date
     let expiresAt: Date?
+    let isProtected: Bool
 
     var id: String { code }
 }
 
 struct LinkStats: Decodable {
-    let totalClicks: Int
+    let clicks: Int
     let createdAt: Date
-    let lastVisit: Date?
+    let lastVisitAt: Date?
 }

@@ -3,6 +3,7 @@ import Foundation
 struct ShortenRequest: Encodable {
     let url: String
     let expiration: String?
+    let passcode: String?
 
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
@@ -10,9 +11,10 @@ struct ShortenRequest: Encodable {
         if let expiration {
             try container.encode(expiration, forKey: .expiration)
         }
+        if let passcode { try container.encode(passcode, forKey: .passcode) }
     }
 
     enum CodingKeys: String, CodingKey {
-        case url, expiration
+        case url, expiration, passcode
     }
 }

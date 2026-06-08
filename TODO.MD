@@ -2,11 +2,7 @@
 # Fix Go Back Header Blinking issue if possible
 # Research: Look a like components in auth flow should become a Core component with custom props?
 # Remove else if
-
-- [ ] **Milestone 7 — Create link**
-- URL input field
-- Expiration picker: 7 days / 30 days / never
-- POST /links/shorten
+# Add HTML for password links in backend
 
 - [ ] **Milestone 8 — Link detail**
 - Full stats (total clicks, created at, last visit)

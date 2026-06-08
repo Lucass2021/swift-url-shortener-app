@@ -8,7 +8,8 @@ struct HomeSkeletonView: View {
         originalUrl: "https://example.com/placeholder-url-here",
         clicks: 0,
         createdAt: .now,
-        expiresAt: nil
+        expiresAt: nil,
+        isProtected: false
     )
 
     var body: some View {
