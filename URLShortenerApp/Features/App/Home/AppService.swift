@@ -12,6 +12,10 @@ enum AppService {
     static func deleteLink(code: String) async throws {
         let _: DeleteResponse = try await APIClient.shared.request(.deleteLink(code: code))
     }
+
+    static func fetchLinkStats(code: String) async throws -> LinkStats {
+        return try await APIClient.shared.request(.linkStats(code: code))
+    }
 }
 
 private struct DeleteResponse: Decodable {}

@@ -15,3 +15,10 @@ struct AppAddButton: View {
         }
     }
 }
+
+#Preview {
+    ZStack {
+        Color.black.ignoresSafeArea()
+        AppAddButton {}
+    }
+}

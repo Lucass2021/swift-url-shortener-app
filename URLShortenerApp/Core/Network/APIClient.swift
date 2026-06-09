@@ -32,15 +32,15 @@ private struct NestErrorBody: Decodable {
 actor APIClient {
     static let shared = APIClient()
 
-    private let baseURL = Config.baseURL
+    nonisolated private let baseURL = Config.baseURL
     private let session = URLSession.shared
     private var refreshTask: Task<AuthTokens, Error>?
     private var onRefreshFailure: (@Sendable () -> Void)?
     private let decoder: JSONDecoder = {
         let jsonDecoder = JSONDecoder()
-        let formatter = ISO8601DateFormatter()
-        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         jsonDecoder.dateDecodingStrategy = .custom { decoder in
+            let formatter = ISO8601DateFormatter()
+            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)
             guard let date = formatter.date(from: string) else {

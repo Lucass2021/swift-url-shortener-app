@@ -1,8 +1,8 @@
 ### NEXT 
 # Fix Go Back Header Blinking issue if possible
 # Research: Look a like components in auth flow should become a Core component with custom props?
+# Check components organization in all project
 # Remove else if
-# Add HTML for password links in backend
 
 - [ ] **Milestone 8 — Link detail**
 - Full stats (total clicks, created at, last visit)

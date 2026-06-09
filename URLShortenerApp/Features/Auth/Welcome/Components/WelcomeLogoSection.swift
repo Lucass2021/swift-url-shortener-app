@@ -29,3 +29,10 @@ struct WelcomeLogoSection: View {
         }
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        WelcomeLogoSection()
+    }
+}

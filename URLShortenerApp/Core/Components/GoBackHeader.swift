@@ -17,3 +17,12 @@ struct GoBackHeader: ToolbarContent {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+            .toolbar {
+                GoBackHeader(title: "Links") {}
+            }
+    }
+}

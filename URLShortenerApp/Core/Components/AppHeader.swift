@@ -19,3 +19,13 @@ struct AppHeader: ToolbarContent {
         }
     }
 }
+
+#Preview {
+    NavigationStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+            .toolbar {
+                AppHeader(title: "My Links") {}
+            }
+            .navigationBarTitleDisplayMode(.inline)
+    }
+}

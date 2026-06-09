@@ -57,3 +57,12 @@ extension View {
         modifier(ToastModifier(message: message, style: style))
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        Text("App content here")
+            .foregroundStyle(.white)
+    }
+    .toast(message: .constant("Something went wrong. Please try again."), style: .error)
+}

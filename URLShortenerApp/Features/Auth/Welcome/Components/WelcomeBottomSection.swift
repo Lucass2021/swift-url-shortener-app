@@ -22,3 +22,13 @@ struct WelcomeBottomSection: View {
         }
     }
 }
+
+#Preview {
+    @Previewable @State var showLogin = false
+    @Previewable @State var showRegister = false
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        WelcomeBottomSection(showLogin: $showLogin, showRegister: $showRegister)
+            .padding(.horizontal, 20)
+    }
+}

@@ -32,3 +32,11 @@ struct WelcomeStatsCard: View {
         .frame(maxWidth: .infinity)
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        WelcomeStatsCard()
+            .padding(.horizontal, 20)
+    }
+}

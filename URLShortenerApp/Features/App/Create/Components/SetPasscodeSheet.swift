@@ -35,3 +35,8 @@ struct SetPasscodeSheet: View {
         .presentationBackground(Color.appSurface)
     }
 }
+
+#Preview {
+    @Previewable @State var passcode = ""
+    SetPasscodeSheet(passcode: $passcode) {}
+}

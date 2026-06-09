@@ -28,3 +28,8 @@ struct ProfileView: View {
         .presentationDetents([.medium])
     }
 }
+
+#Preview {
+    ProfileView()
+        .environment(AuthStore())
+}

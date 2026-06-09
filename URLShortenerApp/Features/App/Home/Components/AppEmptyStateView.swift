@@ -22,3 +22,10 @@ struct AppEmptyStateView: View {
         .padding(32)
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        AppEmptyStateView()
+    }
+}

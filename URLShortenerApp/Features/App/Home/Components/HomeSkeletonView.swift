@@ -56,3 +56,10 @@ struct HomeSkeletonView: View {
         .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.3), lineWidth: 0.5))
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        HomeSkeletonView()
+    }
+}

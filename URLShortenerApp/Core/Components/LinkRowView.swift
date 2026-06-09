@@ -62,3 +62,26 @@ struct LinkRowView: View {
         )
     }
 }
+
+#Preview {
+    VStack(spacing: 12) {
+        LinkRowView(link: Link(
+            code: "abc123",
+            originalUrl: "https://www.youtube.com/",
+            clicks: 42,
+            createdAt: Date(),
+            expiresAt: nil,
+            isProtected: false
+        ))
+        LinkRowView(link: Link(
+            code: "xyz789",
+            originalUrl: "https://www.youtube.com/",
+            clicks: 1200,
+            createdAt: Date(),
+            expiresAt: Date().addingTimeInterval(-3600),
+            isProtected: true
+        ))
+    }
+    .padding()
+    .background(Color.appBackgroundApp)
+}

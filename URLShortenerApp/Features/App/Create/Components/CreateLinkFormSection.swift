@@ -72,3 +72,11 @@ struct CreateLinkFormSection: View {
         }
     }
 }
+
+#Preview {
+    ZStack {
+        Color.appBackgroundApp.ignoresSafeArea()
+        CreateLinkFormSection(viewModel: CreateLinkViewModel())
+            .padding(.horizontal, 20)
+    }
+}
