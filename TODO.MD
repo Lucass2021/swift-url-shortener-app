@@ -4,11 +4,6 @@
 # Check components organization in all project
 # Remove else if
 
-- [ ] **Milestone 8 — Link detail**
-- Full stats (total clicks, created at, last visit)
-- Copy short link button with animated checkmark feedback
-- QR code generated via CoreImage (no external libraries)
-
 - [ ] **Milestone 9 — Profile**
 - Display user name and email
 - Sign out button

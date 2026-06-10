@@ -8,8 +8,10 @@ struct LinkDetailView: View {
     @Environment(\.dismiss) private var dismiss
 
     private var shortURL: String {
-        let host = URL(string: Config.baseURL)?.host ?? ""
-        return "\(host)/\(link.code)"
+        guard let url = URL(string: Config.baseURL),
+              let host = url.host else { return link.code }
+        let port = url.port.map { ":\($0)" } ?? ""
+        return "\(host)\(port)/\(link.code)"
     }
 
     init(link: Link, onDelete: @escaping () -> Void) {
@@ -49,7 +51,7 @@ struct LinkDetailView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            GoBackHeader(title: "Links") { dismiss() }
+            GoBackHeader(title: "Back") { dismiss() }
         }
         .task { await viewModel.load() }
         .sheet(isPresented: $viewModel.showQRSheet) {
@@ -86,7 +88,7 @@ struct LinkDetailView: View {
             if let url = URL(string: link.originalUrl) {
                 SwiftUI.Link(destination: url) {
                     Image(systemName: "arrow.up.right.square")
-                        .foregroundStyle(Color.appAccent)
+                        .foregroundStyle(Color.appPrimary)
                         .font(.title3)
                 }
             }

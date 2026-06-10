@@ -2,21 +2,25 @@ import SwiftUI
 
 struct AppLinksSection: View {
     let viewModel: AppViewModel
+    @Binding var selectedLink: Link?
     @State private var linkToDelete: Link?
 
     var body: some View {
         Section {
             ForEach(viewModel.links) { link in
-                LinkRowView(link: link)
-                    .swipeActions(edge: .trailing, allowsFullSwipe: false) {
-                        Button {
-                            linkToDelete = link
-                        } label: {
-                            Label("Delete", systemImage: "trash")
-                                .labelStyle(.iconOnly)
-                        }
-                        .tint(.red)
+                Button { selectedLink = link } label: {
+                    LinkRowView(link: link)
+                }
+                .buttonStyle(.plain)
+                .swipeActions(edge: .trailing, allowsFullSwipe: false) {
+                    Button {
+                        linkToDelete = link
+                    } label: {
+                        Label("Delete", systemImage: "trash")
+                            .labelStyle(.iconOnly)
                     }
+                    .tint(.red)
+                }
             }
         }
         .listRowBackground(Color.clear)

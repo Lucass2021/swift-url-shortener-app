@@ -22,7 +22,7 @@ struct GoBackHeader: ToolbarContent {
     NavigationStack {
         Color.appBackgroundApp.ignoresSafeArea()
             .toolbar {
-                GoBackHeader(title: "Links") {}
+                GoBackHeader(title: "Back") {}
             }
     }
 }

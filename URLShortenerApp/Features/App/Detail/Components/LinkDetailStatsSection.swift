@@ -29,7 +29,7 @@ struct LinkDetailStatsSection: View {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
                     Image(systemName: "chart.bar.fill")
-                        .foregroundStyle(Color.appAccent)
+                        .foregroundStyle(Color.appPrimary)
                     Text(clicksText)
                         .font(.title.bold())
                         .foregroundStyle(.white)

@@ -5,6 +5,7 @@ struct AppView: View {
     @State private var viewModel = AppViewModel()
     @State private var showProfile = false
     @State private var showCreateLink = false
+    @State private var selectedLink: Link?
 
     var body: some View {
         NavigationStack {
@@ -22,7 +23,7 @@ struct AppView: View {
                 } else {
                     List {
                         AppDashboardSection(viewModel: viewModel)
-                        AppLinksSection(viewModel: viewModel)
+                        AppLinksSection(viewModel: viewModel, selectedLink: $selectedLink)
                     }
                     .contentMargins(.bottom, 120, for: .scrollContent)
                     .listSectionSpacing(20)
@@ -46,6 +47,12 @@ struct AppView: View {
             .toast(message: $viewModel.deleteError, style: .error)
             .navigationDestination(isPresented: $showCreateLink) {
                 CreateLinkView {
+                    Task { await viewModel.load() }
+                }
+            }
+            .navigationDestination(item: $selectedLink) { link in
+                LinkDetailView(link: link) {
+                    selectedLink = nil
                     Task { await viewModel.load() }
                 }
             }

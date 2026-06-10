@@ -37,7 +37,7 @@ struct CreateLinkView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
-            GoBackHeader(title: "Links") { dismiss() }
+            GoBackHeader(title: "Back") { dismiss() }
         }
         .onChange(of: viewModel.didSucceed) { _, succeeded in
             if succeeded {

@@ -1,6 +1,6 @@
 import Foundation
 
-struct Link: Decodable, Identifiable {
+struct Link: Decodable, Identifiable, Hashable {
     let code: String
     let originalUrl: String
     let clicks: Int

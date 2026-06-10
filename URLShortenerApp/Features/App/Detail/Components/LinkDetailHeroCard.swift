@@ -16,7 +16,7 @@ struct LinkDetailHeroCard: View {
 
                 Text(shortURL)
                     .font(.system(.body, design: .monospaced).weight(.semibold))
-                    .foregroundStyle(Color.appAccent)
+                    .foregroundStyle(Color.appPrimary)
                     .multilineTextAlignment(.center)
             }
 
@@ -31,7 +31,7 @@ struct LinkDetailHeroCard: View {
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 48)
-                .background(Color.appAccent)
+                .background(Color.appPrimary)
                 .clipShape(RoundedRectangle(cornerRadius: 12))
             }
         }
