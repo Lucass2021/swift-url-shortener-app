@@ -35,10 +35,6 @@ struct AppView: View {
                 AppHeader(title: "My Links") { showProfile = true }
             }
             .navigationBarTitleDisplayMode(.inline)
-            .sheet(isPresented: $showProfile) {
-                ProfileView()
-                    .environment(authStore)
-            }
             .overlay(alignment: .bottom) {
                 AppAddButton { showCreateLink = true }
                     .padding(.bottom, 32)
@@ -55,6 +51,12 @@ struct AppView: View {
                     selectedLink = nil
                     Task { await viewModel.load() }
                 }
+            }
+            .navigationDestination(isPresented: $showProfile) {
+                ProfileView(
+                    totalClicks: viewModel.totalClicks,
+                    activeLinks: viewModel.activeLinksCount
+                )
             }
         }
     }

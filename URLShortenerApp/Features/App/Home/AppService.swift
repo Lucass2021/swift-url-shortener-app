@@ -16,6 +16,10 @@ enum AppService {
     static func fetchLinkStats(code: String) async throws -> LinkStats {
         return try await APIClient.shared.request(.linkStats(code: code))
     }
+
+    static func fetchMe() async throws -> User {
+        return try await APIClient.shared.request(.me)
+    }
 }
 
 private struct DeleteResponse: Decodable {}

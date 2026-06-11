@@ -4,10 +4,6 @@
 # Check components organization in all project
 # Remove else if
 
-- [ ] **Milestone 9 — Profile**
-- Display user name and email
-- Sign out button
-
 - [ ] **Milestone 10 — Polish**
 - Loading states on all async actions
 - User-friendly error messages

@@ -13,11 +13,10 @@ enum Endpoint {
     case forgotPassword
     case verifyResetCode
     case resetPassword
-
+    case me
     case shortenLink
     case myLinks
     case deleteLink(code: String)
-
     case linkStats(code: String)
 
     var path: String {
@@ -28,6 +27,7 @@ enum Endpoint {
         case .forgotPassword: return "/auth/forgot-password"
         case .verifyResetCode: return "/auth/verify-reset-code"
         case .resetPassword: return "/auth/reset-password"
+        case .me: return "/auth/me"
         case .shortenLink: return "/links/shorten"
         case .myLinks: return "/links/me/links"
         case let .deleteLink(code): return "/links/\(code)"
@@ -41,7 +41,7 @@ enum Endpoint {
             return .post
         case .deleteLink:
             return .delete
-        case .myLinks, .linkStats:
+        case .myLinks, .linkStats, .me:
             return .get
         }
     }
@@ -51,7 +51,7 @@ enum Endpoint {
         case .register, .login, .refresh,
              .forgotPassword, .verifyResetCode, .resetPassword:
             return false
-        case .shortenLink, .myLinks, .deleteLink, .linkStats:
+        case .shortenLink, .myLinks, .deleteLink, .linkStats, .me:
             return true
         }
     }
