@@ -8,6 +8,7 @@ class AppViewModel {
     var isLoading = false
     var errorMessage: String?
     var deleteError: String?
+    var deletingLinkIDs: Set<String> = []
 
     var totalClicks: Int {
         links.reduce(0) { $0 + $1.clicks }
@@ -30,6 +31,8 @@ class AppViewModel {
     }
 
     func delete(_ link: Link) async {
+        deletingLinkIDs.insert(link.id)
+        defer { deletingLinkIDs.remove(link.id) }
         do {
             try await AppService.deleteLink(code: link.code)
             links.removeAll { $0.id == link.id }

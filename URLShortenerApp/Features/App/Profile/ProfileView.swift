@@ -15,15 +15,20 @@ struct ProfileView: View {
             VStack(spacing: 24) {
                 ProfileAvatarSection(
                     name: viewModel.user?.name ?? "—",
-                    email: viewModel.user?.email ?? ""
+                    email: viewModel.user?.email ?? "",
+                    isLoading: viewModel.isLoading && viewModel.user == nil
                 )
+                .staggeredAppear(0)
                 ProfileStatsSection(
                     totalClicks: totalClicks,
                     activeLinks: activeLinks
                 )
+                .staggeredAppear(1)
                 Spacer()
                 signOutButton
+                    .staggeredAppear(2)
                 versionText
+                    .staggeredAppear(3)
             }
             .padding(.horizontal, 20)
             .padding(.top, 32)

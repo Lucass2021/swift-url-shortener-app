@@ -2,6 +2,7 @@ import SwiftUI
 
 struct LinkRowView: View {
     let link: Link
+    var isDeleting: Bool = false
 
     private var shortDomain: String {
         URL(string: Config.baseURL)?.host ?? ""
@@ -60,6 +61,13 @@ struct LinkRowView: View {
             RoundedRectangle(cornerRadius: 12)
                 .stroke(Color.white.opacity(0.3), lineWidth: 0.5)
         )
+        .overlay {
+            if isDeleting {
+                ProgressView()
+                    .tint(.white)
+            }
+        }
+        .opacity(isDeleting ? 0.5 : 1.0)
     }
 }
 

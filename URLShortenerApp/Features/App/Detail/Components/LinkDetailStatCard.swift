@@ -5,14 +5,20 @@ struct LinkDetailStatCard: View {
     let iconColor: Color
     let value: String
     let label: String
+    var isLoading: Bool = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             Image(systemName: icon)
                 .foregroundStyle(iconColor)
-            Text(value)
-                .font(.headline)
-                .foregroundStyle(.white)
+            if isLoading {
+                SkeletonBar(width: 60, height: 18)
+                    .padding(.vertical, 1)
+            } else {
+                Text(value)
+                    .font(.headline)
+                    .foregroundStyle(.white)
+            }
             Text(label)
                 .font(.caption)
                 .foregroundStyle(.white.opacity(0.5))

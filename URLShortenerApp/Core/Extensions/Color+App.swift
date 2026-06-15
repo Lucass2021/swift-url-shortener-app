@@ -13,6 +13,7 @@ extension Color {
     static let appTextPrimary = Color.white
     static let appTextSecondary = Color(hex: "8e8e93")
     static let appDestructive = Color(hex: "b50036")
+    static let appSuccess = Color(hex: "30d158")
 }
 
 extension Color {

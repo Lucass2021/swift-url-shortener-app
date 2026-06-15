@@ -34,7 +34,7 @@ struct LinkDetailQuickShareCard: View {
                     .stroke(Color.white.opacity(0.08), lineWidth: 0.5)
             )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle())
     }
 }
 

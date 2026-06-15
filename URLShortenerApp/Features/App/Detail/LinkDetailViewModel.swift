@@ -24,7 +24,7 @@ final class LinkDetailViewModel {
         do {
             stats = try await AppService.fetchLinkStats(code: link.code)
         } catch {
-            errorMessage = "Failed to load stats."
+            errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load stats."
         }
     }
 
@@ -46,7 +46,7 @@ final class LinkDetailViewModel {
             try await AppService.deleteLink(code: link.code)
             didDelete = true
         } catch {
-            errorMessage = "Failed to delete link."
+            errorMessage = (error as? APIError)?.errorDescription ?? "Failed to delete link."
         }
     }
 

@@ -18,7 +18,7 @@ struct SecondaryButton: View {
                         .stroke(Color.appPrimary, lineWidth: 1.5)
                 )
         }
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle())
     }
 }
 

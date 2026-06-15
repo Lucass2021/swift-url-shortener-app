@@ -31,17 +31,26 @@ struct LinkDetailView: View {
                         isCopied: viewModel.isCopied,
                         onCopy: { viewModel.copyLink(shortURL: shortURL) }
                     )
+                    .staggeredAppear(0)
 
                     originalURLRow
+                        .staggeredAppear(1)
 
-                    LinkDetailStatsSection(link: link, stats: viewModel.stats)
+                    LinkDetailStatsSection(
+                        link: link,
+                        stats: viewModel.stats,
+                        isLoading: viewModel.isLoading && viewModel.stats == nil
+                    )
+                    .staggeredAppear(2)
 
                     LinkDetailQuickShareCard(
                         qrImage: viewModel.generateQRCode(from: shortURL),
                         showSheet: $viewModel.showQRSheet
                     )
+                    .staggeredAppear(3)
 
                     deleteButton
+                        .staggeredAppear(4)
                 }
                 .padding(.horizontal, 20)
                 .padding(.top, 24)

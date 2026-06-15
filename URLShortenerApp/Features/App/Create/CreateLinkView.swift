@@ -39,10 +39,18 @@ struct CreateLinkView: View {
         .toolbar {
             GoBackHeader(title: "Back") { dismiss() }
         }
+        .overlay {
+            if viewModel.didSucceed {
+                SuccessOverlay(message: "Link created!")
+            }
+        }
         .onChange(of: viewModel.didSucceed) { _, succeeded in
             if succeeded {
-                onSuccess()
-                dismiss()
+                Task {
+                    try? await Task.sleep(for: .seconds(0.9))
+                    onSuccess()
+                    dismiss()
+                }
             }
         }
         .toast(message: $viewModel.errorMessage, style: .error)

@@ -29,6 +29,7 @@ struct AppView: View {
                     .listSectionSpacing(20)
                     .scrollContentBackground(.hidden)
                     .refreshable { await viewModel.load() }
+                    .animation(.default, value: viewModel.links)
                 }
             }
             .toolbar {

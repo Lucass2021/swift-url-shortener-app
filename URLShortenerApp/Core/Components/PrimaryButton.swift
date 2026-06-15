@@ -23,7 +23,7 @@ struct PrimaryButton: View {
             .clipShape(RoundedRectangle(cornerRadius: 14))
         }
         .disabled(isLoading)
-        .buttonStyle(.plain)
+        .buttonStyle(PressableButtonStyle())
     }
 }
 

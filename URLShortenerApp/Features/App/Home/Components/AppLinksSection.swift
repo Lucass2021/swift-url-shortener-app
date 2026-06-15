@@ -9,9 +9,13 @@ struct AppLinksSection: View {
         Section {
             ForEach(viewModel.links) { link in
                 Button { selectedLink = link } label: {
-                    LinkRowView(link: link)
+                    LinkRowView(
+                        link: link,
+                        isDeleting: viewModel.deletingLinkIDs.contains(link.id)
+                    )
                 }
-                .buttonStyle(.plain)
+                .buttonStyle(PressableButtonStyle())
+                .disabled(viewModel.deletingLinkIDs.contains(link.id))
                 .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                     Button {
                         linkToDelete = link

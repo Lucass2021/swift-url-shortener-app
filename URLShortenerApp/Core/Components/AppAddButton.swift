@@ -13,6 +13,7 @@ struct AppAddButton: View {
                 .clipShape(Circle())
                 .shadow(color: Color.appPrimary.opacity(0.4), radius: 8, x: 0, y: 4)
         }
+        .buttonStyle(PressableButtonStyle(scale: 0.9))
     }
 }
 

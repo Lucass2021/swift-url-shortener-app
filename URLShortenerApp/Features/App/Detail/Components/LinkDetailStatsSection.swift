@@ -3,6 +3,7 @@ import SwiftUI
 struct LinkDetailStatsSection: View {
     let link: Link
     let stats: LinkStats?
+    var isLoading: Bool = false
 
     private var clicksText: String {
         guard let stats else { return "--" }
@@ -30,9 +31,14 @@ struct LinkDetailStatsSection: View {
                 VStack(alignment: .leading, spacing: 4) {
                     Image(systemName: "chart.bar.fill")
                         .foregroundStyle(Color.appPrimary)
-                    Text(clicksText)
-                        .font(.title.bold())
-                        .foregroundStyle(.white)
+                    if isLoading {
+                        SkeletonBar(width: 90, height: 30)
+                            .padding(.vertical, 2)
+                    } else {
+                        Text(clicksText)
+                            .font(.title.bold())
+                            .foregroundStyle(.white)
+                    }
                     Text("Total Clicks")
                         .font(.caption)
                         .foregroundStyle(.white.opacity(0.5))
@@ -53,13 +59,15 @@ struct LinkDetailStatsSection: View {
                     icon: "calendar",
                     iconColor: .orange,
                     value: createdText,
-                    label: "Created"
+                    label: "Created",
+                    isLoading: isLoading
                 )
                 LinkDetailStatCard(
                     icon: "clock.arrow.circlepath",
                     iconColor: .pink,
                     value: lastVisitText,
-                    label: "Last Visit"
+                    label: "Last Visit",
+                    isLoading: isLoading
                 )
             }
         }

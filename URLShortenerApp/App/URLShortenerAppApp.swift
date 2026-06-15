@@ -14,12 +14,24 @@ struct URLShortenerAppApp: App {
 
 private struct RootView: View {
     @Environment(AuthStore.self) private var authStore
+    @State private var showSplash = true
 
     var body: some View {
-        if authStore.isAuthenticated {
-            AppView()
-        } else {
-            WelcomeView()
+        ZStack {
+            if authStore.isAuthenticated {
+                AppView()
+            } else {
+                WelcomeView()
+            }
+
+            if showSplash {
+                SplashView {
+                    withAnimation(.easeInOut(duration: 0.4)) {
+                        showSplash = false
+                    }
+                }
+                .transition(.opacity)
+            }
         }
     }
 }
