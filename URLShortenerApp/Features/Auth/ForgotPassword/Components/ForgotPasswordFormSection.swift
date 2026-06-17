@@ -5,11 +5,7 @@ struct ForgotPasswordFormSection: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Email Address")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Email Address") {
                 AuthTextField(
                     placeholder: "name@company.com",
                     icon: "envelope",

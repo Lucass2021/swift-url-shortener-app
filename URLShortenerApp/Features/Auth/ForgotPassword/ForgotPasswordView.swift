@@ -11,7 +11,10 @@ struct ForgotPasswordView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                ForgotPasswordLogoSection()
+                AuthHeader(
+                    title: "LinkShort",
+                    subtitle: "Forgot your password? \nNo worries, we got you!"
+                )
 
                 Spacer().frame(height: 48)
 

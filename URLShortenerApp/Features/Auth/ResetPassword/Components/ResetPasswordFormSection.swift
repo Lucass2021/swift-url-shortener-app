@@ -5,15 +5,7 @@ struct ResetPasswordFormSection: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("New Password")
-                        .font(.callout)
-                        .foregroundStyle(Color.white)
-
-                    Spacer()
-                }
-
+            AuthLabeledField(label: "New Password") {
                 AuthTextField(
                     placeholder: "••••••••",
                     icon: "lock",

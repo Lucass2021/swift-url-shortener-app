@@ -1,9 +1,9 @@
 ### TODO
-# Fix Go Back Header Blinking issue if possible
-# Research: Look a like components in auth flow should become a Core component with custom props?
+# Aplly staggeredAppear component in more places
 # Check components organization in all project
 # Remove else if
 
+# Add tests
 # Check if i'm following switch code patterns correctly
 # Make variables and props names more clear
 # Test form with keyboard visible
@@ -14,3 +14,5 @@
 # Check for missing quality patterns in this project comparing with my React Native Projects.
 # Add profile image?
 # Add routes for auth screen % data?
+# Check code quality in all files (Mannualy and AI review)
+# Upload in testflight to test UI/UX

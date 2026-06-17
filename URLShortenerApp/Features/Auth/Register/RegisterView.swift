@@ -11,7 +11,10 @@ struct RegisterView: View {
 
                 ScrollView {
                     VStack(spacing: 0) {
-                        RegisterLogoSection()
+                        AuthHeader(
+                            title: "Join LinkShort",
+                            subtitle: "Create an account to start managing your \nlinks with precision."
+                        )
 
                         Spacer().frame(height: 48)
 

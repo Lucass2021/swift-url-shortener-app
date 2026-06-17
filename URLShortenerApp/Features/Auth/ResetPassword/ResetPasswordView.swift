@@ -15,7 +15,7 @@ struct ResetPasswordView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                ResetPasswordLogoSection()
+                AuthHeader(title: "LinkShort")
 
                 Spacer().frame(height: 48)
 

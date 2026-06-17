@@ -1,6 +1,9 @@
 import SwiftUI
 
-struct ForgotPasswordLogoSection: View {
+struct AuthHeader: View {
+    let title: String
+    var subtitle: String? = nil
+
     var body: some View {
         VStack(spacing: 20) {
             ZStack {
@@ -18,21 +21,29 @@ struct ForgotPasswordLogoSection: View {
             }
 
             VStack(spacing: 8) {
-                Text("LinkShort")
+                Text(title)
                     .font(.system(size: 34, weight: .bold))
                     .foregroundStyle(Color.appTextPrimary)
 
-                Text("Forgot your password? \nNo worries, we got you!")
-                    .font(.subheadline)
-                    .foregroundStyle(Color.appTextPrimary)
-                    .multilineTextAlignment(.center)
+                if let subtitle {
+                    Text(subtitle)
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appTextPrimary)
+                        .multilineTextAlignment(.center)
+                }
             }
         }
     }
 }
 
-#Preview {
-    ForgotPasswordLogoSection()
+#Preview("With subtitle") {
+    AuthHeader(title: "LinkShort", subtitle: "Precision link management \nat your fingertips.")
+        .padding()
+        .background(Color.appBackground)
+}
+
+#Preview("Title only") {
+    AuthHeader(title: "LinkShort")
         .padding()
         .background(Color.appBackground)
 }

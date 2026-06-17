@@ -6,11 +6,7 @@ struct LoginFormSection: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Email Address")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Email Address") {
                 AuthTextField(
                     placeholder: "name@company.com",
                     icon: "envelope",
@@ -19,15 +15,7 @@ struct LoginFormSection: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("Password")
-                        .font(.callout)
-                        .foregroundStyle(Color.white)
-
-                    Spacer()
-                }
-
+            AuthLabeledField(label: "Password") {
                 AuthTextField(
                     placeholder: "••••••••",
                     icon: "lock",
@@ -38,13 +26,13 @@ struct LoginFormSection: View {
                 )
 
                 Button("Forgot Password?") {
-                        showForgotPassword = true
-                    }
-                    .font(.default)
-                    .foregroundStyle(Color.appPrimary)
-                    .buttonStyle(.plain)
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.top, 4)
+                    showForgotPassword = true
+                }
+                .font(.default)
+                .foregroundStyle(Color.appPrimary)
+                .buttonStyle(.plain)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .padding(.top, 4)
             }
         }
     }

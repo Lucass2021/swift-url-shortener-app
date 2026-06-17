@@ -5,11 +5,7 @@ struct RegisterFormSection: View {
 
     var body: some View {
         VStack(spacing: 16) {
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Full Name")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Full Name") {
                 AuthTextField(
                     placeholder: "John Doe",
                     icon: "person",
@@ -18,11 +14,7 @@ struct RegisterFormSection: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Email Address")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Email Address") {
                 AuthTextField(
                     placeholder: "name@company.com",
                     icon: "envelope",
@@ -31,11 +23,7 @@ struct RegisterFormSection: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Password")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Password") {
                 AuthTextField(
                     placeholder: "••••••••",
                     icon: "lock",
@@ -46,11 +34,7 @@ struct RegisterFormSection: View {
                 )
             }
 
-            VStack(alignment: .leading, spacing: 8) {
-                Text("Confirm Password")
-                    .font(.callout)
-                    .foregroundStyle(Color.white)
-
+            AuthLabeledField(label: "Confirm Password") {
                 AuthTextField(
                     placeholder: "••••••••",
                     icon: "lock",

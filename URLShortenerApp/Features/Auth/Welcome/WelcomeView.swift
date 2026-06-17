@@ -14,7 +14,10 @@ struct WelcomeView: View {
                 VStack(spacing: 0) {
                     Spacer()
 
-                    WelcomeLogoSection()
+                    AuthHeader(
+                        title: "LinkShort",
+                        subtitle: "Shorten. Share. Track."
+                    )
 
                     Spacer().frame(height: 40)
 

@@ -12,7 +12,10 @@ struct LoginView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                LoginLogoSection()
+                AuthHeader(
+                    title: "LinkShort",
+                    subtitle: "Precision link management \nat your fingertips."
+                )
 
                 Spacer().frame(height: 48)
 

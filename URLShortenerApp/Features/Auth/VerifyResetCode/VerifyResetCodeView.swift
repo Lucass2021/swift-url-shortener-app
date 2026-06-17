@@ -15,7 +15,7 @@ struct VerifyResetCodeView: View {
             VStack(spacing: 0) {
                 Spacer()
 
-                VerifyResetCodeLogoSection()
+                AuthHeader(title: "LinkShort")
 
                 Spacer().frame(height: 48)
 
