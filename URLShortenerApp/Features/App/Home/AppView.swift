@@ -33,11 +33,11 @@ struct AppView: View {
                 }
             }
             .toolbar {
-                AppHeader(title: "My Links") { showProfile = true }
+                MainHeader(title: "My Links") { showProfile = true }
             }
             .navigationBarTitleDisplayMode(.inline)
             .overlay(alignment: .bottom) {
-                AppAddButton { showCreateLink = true }
+                FloatingAddButton { showCreateLink = true }
                     .padding(.bottom, 32)
             }
             .task { await viewModel.load() }

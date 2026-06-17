@@ -62,6 +62,7 @@ struct LinkDetailView: View {
         .toolbar {
             GoBackHeader(title: "Back") { dismiss() }
         }
+        .enableSwipeBack()
         .task { await viewModel.load() }
         .sheet(isPresented: $viewModel.showQRSheet) {
             QRCodeSheet(qrImage: viewModel.generateQRCode(from: shortURL))

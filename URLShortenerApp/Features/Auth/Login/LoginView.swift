@@ -16,14 +16,17 @@ struct LoginView: View {
                     title: "LinkShort",
                     subtitle: "Precision link management \nat your fingertips."
                 )
+                .staggeredAppear(0)
 
                 Spacer().frame(height: 48)
 
                 LoginFormSection(viewModel: viewModel, showForgotPassword: $showForgotPassword)
+                    .staggeredAppear(1)
 
                 Spacer()
 
                 LoginBottomSection(viewModel: viewModel, showRegister: $showRegister)
+                    .staggeredAppear(2)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 32)

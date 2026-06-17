@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ResetPasswordView: View {
     @State private var viewModel = ResetPasswordViewModel(resetToken: "")
+    @Environment(\.dismiss) private var dismiss
 
     init(resetToken: String) {
         _viewModel = State(initialValue: ResetPasswordViewModel(resetToken: resetToken))
@@ -16,19 +17,27 @@ struct ResetPasswordView: View {
                 Spacer()
 
                 AuthHeader(title: "LinkShort")
+                    .staggeredAppear(0)
 
                 Spacer().frame(height: 48)
 
                 ResetPasswordFormSection(viewModel: viewModel)
+                    .staggeredAppear(1)
 
                 Spacer()
 
                 ResetPasswordBottomSection(viewModel: viewModel)
+                    .staggeredAppear(2)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 32)
         }
-        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            GoBackHeader(title: "Back") { dismiss() }
+        }
+        .enableSwipeBack()
         .toast(message: $viewModel.errorMessage)
     }
 }

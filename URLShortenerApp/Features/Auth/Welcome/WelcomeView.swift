@@ -18,14 +18,17 @@ struct WelcomeView: View {
                         title: "LinkShort",
                         subtitle: "Shorten. Share. Track."
                     )
+                    .staggeredAppear(0)
 
                     Spacer().frame(height: 40)
 
                     WelcomeStatsCard()
+                        .staggeredAppear(1)
 
                     Spacer()
 
                     WelcomeBottomSection(showLogin: $showLogin, showRegister: $showRegister)
+                        .staggeredAppear(2)
                 }
                 .padding(.horizontal, 20)
                 .padding(.bottom, 32)

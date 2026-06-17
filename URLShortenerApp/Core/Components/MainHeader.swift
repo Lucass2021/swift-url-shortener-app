@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AppHeader: ToolbarContent {
+struct MainHeader: ToolbarContent {
     let title: String
     let onProfileTap: () -> Void
 
@@ -24,7 +24,7 @@ struct AppHeader: ToolbarContent {
     NavigationStack {
         Color.appBackgroundApp.ignoresSafeArea()
             .toolbar {
-                AppHeader(title: "My Links") {}
+                MainHeader(title: "My Links") {}
             }
             .navigationBarTitleDisplayMode(.inline)
     }

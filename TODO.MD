@@ -1,8 +1,4 @@
 ### TODO
-# Aplly staggeredAppear component in more places
-# Check components organization in all project
-# Remove else if
-
 # Add tests
 # Check if i'm following switch code patterns correctly
 # Make variables and props names more clear

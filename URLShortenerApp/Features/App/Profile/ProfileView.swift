@@ -39,6 +39,7 @@ struct ProfileView: View {
         .toolbar {
             GoBackHeader(title: "Back") { dismiss() }
         }
+        .enableSwipeBack()
         .task { await viewModel.load() }
         .toast(message: $viewModel.errorMessage, style: .error)
     }

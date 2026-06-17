@@ -3,6 +3,7 @@ import SwiftUI
 
 struct VerifyResetCodeView: View {
     @State private var viewModel: VerifyResetCodeViewModel
+    @Environment(\.dismiss) private var dismiss
 
     init(email: String) {
         _viewModel = State(initialValue: VerifyResetCodeViewModel(email: email))
@@ -16,19 +17,27 @@ struct VerifyResetCodeView: View {
                 Spacer()
 
                 AuthHeader(title: "LinkShort")
+                    .staggeredAppear(0)
 
                 Spacer().frame(height: 48)
 
                 VerifyResetCodeFormSection(viewModel: viewModel)
+                    .staggeredAppear(1)
 
                 Spacer()
 
                 VerifyResetCodeBottomSection(viewModel: viewModel)
+                    .staggeredAppear(2)
             }
             .padding(.horizontal, 20)
             .padding(.bottom, 32)
         }
-        .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            GoBackHeader(title: "Back") { dismiss() }
+        }
+        .enableSwipeBack()
         .navigationDestination(isPresented: $viewModel.showResetPassword) {
             ResetPasswordView(resetToken: viewModel.resetToken ?? "")
         }

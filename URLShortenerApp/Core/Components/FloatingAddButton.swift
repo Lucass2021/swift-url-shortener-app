@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AppAddButton: View {
+struct FloatingAddButton: View {
     let action: () -> Void
 
     var body: some View {
@@ -20,6 +20,6 @@ struct AppAddButton: View {
 #Preview {
     ZStack {
         Color.black.ignoresSafeArea()
-        AppAddButton {}
+        FloatingAddButton {}
     }
 }

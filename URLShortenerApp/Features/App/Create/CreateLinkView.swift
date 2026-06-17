@@ -20,10 +20,12 @@ struct CreateLinkView: View {
                         .foregroundStyle(.white.opacity(0.6))
                 }
                 .padding(.top, 8)
+                .staggeredAppear(0)
 
                 Spacer().frame(height: 40)
 
                 CreateLinkFormSection(viewModel: viewModel)
+                    .staggeredAppear(1)
 
                 Spacer()
 
@@ -31,6 +33,7 @@ struct CreateLinkView: View {
                     Task { await viewModel.shorten() }
                 }
                 .padding(.bottom, 16)
+                .staggeredAppear(2)
             }
             .padding(.horizontal, 20)
         }
@@ -39,6 +42,7 @@ struct CreateLinkView: View {
         .toolbar {
             GoBackHeader(title: "Back") { dismiss() }
         }
+        .enableSwipeBack()
         .overlay {
             if viewModel.didSucceed {
                 SuccessOverlay(message: "Link created!")
