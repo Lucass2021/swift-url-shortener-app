@@ -9,6 +9,12 @@ class ForgotPasswordViewModel {
     var showVerifyCode = false
     private var submitted = false
 
+    private let service: AuthServicing
+
+    init(service: AuthServicing = AuthService.live) {
+        self.service = service
+    }
+
     var emailError: String? {
         guard submitted else { return nil }
         if email.trimmingCharacters(in: .whitespaces).isEmpty { return "Email is required" }
@@ -22,7 +28,7 @@ class ForgotPasswordViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            authStore.pendingToast = try await AuthService.forgotPassword(email: email)
+            authStore.pendingToast = try await service.forgotPassword(email: email)
             showVerifyCode = true
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription

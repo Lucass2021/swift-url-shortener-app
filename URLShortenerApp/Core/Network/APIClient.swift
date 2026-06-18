@@ -36,14 +36,20 @@ actor APIClient {
     private let session = URLSession.shared
     private var refreshTask: Task<AuthTokens, Error>?
     private var onRefreshFailure: (@Sendable () -> Void)?
+
+    private static let iso8601: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return formatter
+    }()
+
+    private let encoder = JSONEncoder()
     private let decoder: JSONDecoder = {
         let jsonDecoder = JSONDecoder()
         jsonDecoder.dateDecodingStrategy = .custom { decoder in
-            let formatter = ISO8601DateFormatter()
-            formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)
-            guard let date = formatter.date(from: string) else {
+            guard let date = APIClient.iso8601.date(from: string) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Invalid date: \(string)"
@@ -114,7 +120,7 @@ actor APIClient {
 
         if let body {
             urlRequest.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            urlRequest.httpBody = try JSONEncoder().encode(body)
+            urlRequest.httpBody = try encoder.encode(body)
         }
 
         let (data, response) = try await session.data(for: urlRequest)
@@ -127,7 +133,7 @@ actor APIClient {
             let retryAfter = httpResponse.value(forHTTPHeaderField: "Retry-After").flatMap(Int.init)
 
             if [400, 409, 422].contains(httpResponse.statusCode),
-               let body = try? JSONDecoder().decode(NestErrorBody.self, from: data)
+               let body = try? decoder.decode(NestErrorBody.self, from: data)
             {
                 throw APIError.badRequest(body.firstMessage)
             }

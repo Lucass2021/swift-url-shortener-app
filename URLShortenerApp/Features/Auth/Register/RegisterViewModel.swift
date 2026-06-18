@@ -11,6 +11,12 @@ class RegisterViewModel {
     var errorMessage: String?
     private var submitted = false
 
+    private let service: AuthServicing
+
+    init(service: AuthServicing = AuthService.live) {
+        self.service = service
+    }
+
     var nameError: String? {
         guard submitted else { return nil }
         if name.trimmingCharacters(in: .whitespaces).isEmpty { return "Full name is required" }
@@ -43,7 +49,7 @@ class RegisterViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            let tokens = try await AuthService.register(name: name, email: email, password: password)
+            let tokens = try await service.register(name: name, email: email, password: password)
             authStore.saveTokens(tokens)
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription

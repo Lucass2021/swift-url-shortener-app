@@ -7,11 +7,17 @@ class ProfileViewModel {
     var isLoading = false
     var errorMessage: String?
 
+    private let service: HomeServicing
+
+    init(service: HomeServicing = HomeService.live) {
+        self.service = service
+    }
+
     func load() async {
         isLoading = true
         defer { isLoading = false }
         do {
-            user = try await AppService.fetchMe()
+            user = try await service.fetchMe()
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load profile."
         }

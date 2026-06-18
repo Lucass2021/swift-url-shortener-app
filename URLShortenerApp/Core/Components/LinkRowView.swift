@@ -4,10 +4,6 @@ struct LinkRowView: View {
     let link: Link
     var isDeleting: Bool = false
 
-    private var shortDomain: String {
-        URL(string: Config.baseURL)?.host ?? ""
-    }
-
     private var expirationText: String {
         guard let expiresAt = link.expiresAt else { return "Never expires" }
         if expiresAt < .now { return "Expired" }
@@ -28,7 +24,7 @@ struct LinkRowView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
-            Text("\(shortDomain)/\(link.code)")
+            Text(link.shortURL)
                 .font(.system(.subheadline, design: .monospaced).weight(.semibold))
                 .foregroundStyle(Color.appAccent)
 

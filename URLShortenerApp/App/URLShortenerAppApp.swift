@@ -19,7 +19,7 @@ private struct RootView: View {
     var body: some View {
         ZStack {
             if authStore.isAuthenticated {
-                AppView()
+                HomeView()
             } else {
                 WelcomeView()
             }

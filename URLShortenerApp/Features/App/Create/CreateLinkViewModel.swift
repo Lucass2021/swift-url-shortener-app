@@ -20,7 +20,6 @@ class CreateLinkViewModel {
     var url = ""
     var selectedExpiration = ExpirationOption.never
 
-    var generateQR = false
     var passcodeEnabled = false
     var passcode = ""
 
@@ -28,6 +27,12 @@ class CreateLinkViewModel {
     var urlError: String?
     var errorMessage: String?
     var didSucceed = false
+
+    private let service: HomeServicing
+
+    init(service: HomeServicing = HomeService.live) {
+        self.service = service
+    }
 
     func shorten() async {
         errorMessage = nil
@@ -49,7 +54,7 @@ class CreateLinkViewModel {
             let expiration = selectedExpiration == .never ? nil : selectedExpiration.rawValue
             let passcodeValue = passcodeEnabled && passcode.count == 4 ? passcode : nil
             let request = ShortenRequest(url: url, expiration: expiration, passcode: passcodeValue)
-            _ = try await AppService.shortenLink(request)
+            _ = try await service.shortenLink(request)
             didSucceed = true
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? "Failed to create link."

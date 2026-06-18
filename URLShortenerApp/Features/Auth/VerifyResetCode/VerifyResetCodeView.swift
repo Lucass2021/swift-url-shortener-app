@@ -10,27 +10,21 @@ struct VerifyResetCodeView: View {
     }
 
     var body: some View {
-        ZStack {
-            Color.appBackground.ignoresSafeArea()
+        AuthScreenScaffold {
+            Spacer()
 
-            VStack(spacing: 0) {
-                Spacer()
+            AuthHeader(title: "LinkShort")
+                .staggeredAppear(0)
 
-                AuthHeader(title: "LinkShort")
-                    .staggeredAppear(0)
+            Spacer().frame(height: 48)
 
-                Spacer().frame(height: 48)
+            VerifyResetCodeFormSection(viewModel: viewModel)
+                .staggeredAppear(1)
 
-                VerifyResetCodeFormSection(viewModel: viewModel)
-                    .staggeredAppear(1)
+            Spacer()
 
-                Spacer()
-
-                VerifyResetCodeBottomSection(viewModel: viewModel)
-                    .staggeredAppear(2)
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 32)
+            VerifyResetCodeBottomSection(viewModel: viewModel)
+                .staggeredAppear(2)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarTitleDisplayMode(.inline)

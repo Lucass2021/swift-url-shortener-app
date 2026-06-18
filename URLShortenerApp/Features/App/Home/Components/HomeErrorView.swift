@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AppErrorView: View {
+struct HomeErrorView: View {
     let message: String
     let onRetry: () -> Void
 

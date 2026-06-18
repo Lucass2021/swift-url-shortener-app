@@ -11,8 +11,11 @@ class VerifyResetCodeViewModel {
     var showResetPassword = false
     private var submitted = false
 
-    init(email: String) {
+    private let service: AuthServicing
+
+    init(email: String, service: AuthServicing = AuthService.live) {
         self.email = email
+        self.service = service
     }
 
     var codeError: String? {
@@ -28,7 +31,7 @@ class VerifyResetCodeViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            resetToken = try await AuthService.verifyResetCode(email: email, code: code)
+            resetToken = try await service.verifyResetCode(email: email, code: code)
             showResetPassword = true
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription

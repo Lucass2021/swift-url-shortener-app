@@ -9,8 +9,11 @@ class ResetPasswordViewModel {
     var errorMessage: String?
     private var submitted = false
 
-    init(resetToken: String) {
+    private let service: AuthServicing
+
+    init(resetToken: String, service: AuthServicing = AuthService.live) {
         self.resetToken = resetToken
+        self.service = service
     }
 
     var passwordError: String? {
@@ -26,7 +29,7 @@ class ResetPasswordViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            try await AuthService.resetPassword(resetToken: resetToken, newPassword: password)
+            try await service.resetPassword(resetToken: resetToken, newPassword: password)
             authStore.pendingToast = "Password changed successfully"
             authStore.didResetPassword = true
         } catch {

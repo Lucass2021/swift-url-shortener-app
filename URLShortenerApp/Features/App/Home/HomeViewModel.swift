@@ -3,12 +3,18 @@ import SwiftUI
 
 @MainActor
 @Observable
-class AppViewModel {
+class HomeViewModel {
     var links: [Link] = []
     var isLoading = false
     var errorMessage: String?
     var deleteError: String?
     var deletingLinkIDs: Set<String> = []
+
+    private let service: HomeServicing
+
+    init(service: HomeServicing = HomeService.live) {
+        self.service = service
+    }
 
     var totalClicks: Int {
         links.reduce(0) { $0 + $1.clicks }
@@ -16,14 +22,17 @@ class AppViewModel {
 
     var activeLinksCount: Int {
         let now = Date.now
-        return links.filter { $0.expiresAt == nil || $0.expiresAt! > now }.count
+        return links.filter { link in
+            guard let expiresAt = link.expiresAt else { return true }
+            return expiresAt > now
+        }.count
     }
 
     func load() async {
         isLoading = true
         errorMessage = nil
         do {
-            links = try await AppService.fetchMyLinks()
+            links = try await service.fetchMyLinks()
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load links."
         }
@@ -34,7 +43,7 @@ class AppViewModel {
         deletingLinkIDs.insert(link.id)
         defer { deletingLinkIDs.remove(link.id) }
         do {
-            try await AppService.deleteLink(code: link.code)
+            try await service.deleteLink(code: link.code)
             links.removeAll { $0.id == link.id }
         } catch {
             deleteError = (error as? APIError)?.errorDescription ?? "Failed to delete link."

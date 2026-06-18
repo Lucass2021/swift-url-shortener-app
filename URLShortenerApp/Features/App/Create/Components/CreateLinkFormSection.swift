@@ -34,14 +34,6 @@ struct CreateLinkFormSection: View {
 
             VStack(spacing: 12) {
                 ToggleOptionRow(
-                    icon: "qrcode",
-                    iconColor: Color.appPrimary,
-                    title: "Auto-generate QR",
-                    subtitle: "Instantly create a high-res QR code for this link.",
-                    isOn: $viewModel.generateQR
-                )
-
-                ToggleOptionRow(
                     icon: "lock.fill",
                     iconColor: .orange,
                     title: "Passcode Protect",

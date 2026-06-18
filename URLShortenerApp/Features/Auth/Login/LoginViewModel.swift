@@ -9,6 +9,12 @@ class LoginViewModel {
     var errorMessage: String?
     private var submitted = false
 
+    private let service: AuthServicing
+
+    init(service: AuthServicing = AuthService.live) {
+        self.service = service
+    }
+
     var emailError: String? {
         guard submitted else { return nil }
         if email.trimmingCharacters(in: .whitespaces).isEmpty { return "Email is required" }
@@ -29,7 +35,7 @@ class LoginViewModel {
         isLoading = true
         defer { isLoading = false }
         do {
-            let tokens = try await AuthService.login(email: email, password: password)
+            let tokens = try await service.login(email: email, password: password)
             authStore.saveTokens(tokens)
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription

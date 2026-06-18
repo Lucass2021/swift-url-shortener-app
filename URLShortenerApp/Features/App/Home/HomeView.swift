@@ -1,8 +1,8 @@
 import SwiftUI
 
-struct AppView: View {
+struct HomeView: View {
     @Environment(AuthStore.self) private var authStore
-    @State private var viewModel = AppViewModel()
+    @State private var viewModel = HomeViewModel()
     @State private var showProfile = false
     @State private var showCreateLink = false
     @State private var selectedLink: Link?
@@ -15,15 +15,15 @@ struct AppView: View {
                 if viewModel.isLoading && viewModel.links.isEmpty {
                     HomeSkeletonView()
                 } else if let error = viewModel.errorMessage {
-                    AppErrorView(message: error) {
+                    HomeErrorView(message: error) {
                         Task { await viewModel.load() }
                     }
                 } else if viewModel.links.isEmpty {
-                    AppEmptyStateView()
+                    HomeEmptyStateView()
                 } else {
                     List {
-                        AppDashboardSection(viewModel: viewModel)
-                        AppLinksSection(viewModel: viewModel, selectedLink: $selectedLink)
+                        HomeDashboardSection(viewModel: viewModel)
+                        HomeLinksSection(viewModel: viewModel, selectedLink: $selectedLink)
                     }
                     .contentMargins(.bottom, 120, for: .scrollContent)
                     .listSectionSpacing(20)
@@ -64,6 +64,6 @@ struct AppView: View {
 }
 
 #Preview {
-    AppView()
+    HomeView()
         .environment(AuthStore())
 }

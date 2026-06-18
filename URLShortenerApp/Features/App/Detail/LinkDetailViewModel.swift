@@ -13,8 +13,11 @@ final class LinkDetailViewModel {
     var showDeleteAlert = false
     var didDelete = false
 
-    init(link: Link) {
+    private let service: HomeServicing
+
+    init(link: Link, service: HomeServicing = HomeService.live) {
         self.link = link
+        self.service = service
     }
 
     func load() async {
@@ -22,7 +25,7 @@ final class LinkDetailViewModel {
         defer { isLoading = false }
 
         do {
-            stats = try await AppService.fetchLinkStats(code: link.code)
+            stats = try await service.fetchLinkStats(code: link.code)
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load stats."
         }
@@ -43,7 +46,7 @@ final class LinkDetailViewModel {
 
     func delete() async {
         do {
-            try await AppService.deleteLink(code: link.code)
+            try await service.deleteLink(code: link.code)
             didDelete = true
         } catch {
             errorMessage = (error as? APIError)?.errorDescription ?? "Failed to delete link."

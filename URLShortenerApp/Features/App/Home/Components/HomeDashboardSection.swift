@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct AppDashboardSection: View {
-    let viewModel: AppViewModel
+struct HomeDashboardSection: View {
+    let viewModel: HomeViewModel
 
     var body: some View {
         Section {

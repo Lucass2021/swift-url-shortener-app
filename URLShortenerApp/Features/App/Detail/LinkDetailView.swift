@@ -7,13 +7,6 @@ struct LinkDetailView: View {
     @State private var viewModel: LinkDetailViewModel
     @Environment(\.dismiss) private var dismiss
 
-    private var shortURL: String {
-        guard let url = URL(string: Config.baseURL),
-              let host = url.host else { return link.code }
-        let port = url.port.map { ":\($0)" } ?? ""
-        return "\(host)\(port)/\(link.code)"
-    }
-
     init(link: Link, onDelete: @escaping () -> Void) {
         self.link = link
         self.onDelete = onDelete
@@ -27,9 +20,9 @@ struct LinkDetailView: View {
             ScrollView {
                 VStack(spacing: 12) {
                     LinkDetailHeroCard(
-                        shortURL: shortURL,
+                        shortURL: link.shortURL,
                         isCopied: viewModel.isCopied,
-                        onCopy: { viewModel.copyLink(shortURL: shortURL) }
+                        onCopy: { viewModel.copyLink(shortURL: link.shortURL) }
                     )
                     .staggeredAppear(0)
 
@@ -44,7 +37,7 @@ struct LinkDetailView: View {
                     .staggeredAppear(2)
 
                     LinkDetailQuickShareCard(
-                        qrImage: viewModel.generateQRCode(from: shortURL),
+                        qrImage: viewModel.generateQRCode(from: link.shortURL),
                         showSheet: $viewModel.showQRSheet
                     )
                     .staggeredAppear(3)
@@ -65,7 +58,7 @@ struct LinkDetailView: View {
         .enableSwipeBack()
         .task { await viewModel.load() }
         .sheet(isPresented: $viewModel.showQRSheet) {
-            QRCodeSheet(qrImage: viewModel.generateQRCode(from: shortURL))
+            QRCodeSheet(qrImage: viewModel.generateQRCode(from: link.shortURL))
         }
         .alert("Delete Link?", isPresented: $viewModel.showDeleteAlert) {
             Button("Delete", role: .destructive) {

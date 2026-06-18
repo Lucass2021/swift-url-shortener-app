@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct AppEmptyStateView: View {
+struct HomeEmptyStateView: View {
     var body: some View {
         VStack(spacing: 24) {
             Image(systemName: "tray")
@@ -26,6 +26,6 @@ struct AppEmptyStateView: View {
 #Preview {
     ZStack {
         Color.appBackgroundApp.ignoresSafeArea()
-        AppEmptyStateView()
+        HomeEmptyStateView()
     }
 }

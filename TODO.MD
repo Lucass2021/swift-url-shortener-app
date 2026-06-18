@@ -1,8 +1,4 @@
 ### TODO
-# Add tests
-# Check if i'm following switch code patterns correctly
-# Make variables and props names more clear
-# Test form with keyboard visible
 # Add Terms of use
 # Create input component (auth screens eg)?
 # Add Canvas preview in everything?
@@ -11,4 +7,5 @@
 # Add profile image?
 # Add routes for auth screen % data?
 # Check code quality in all files (Mannualy and AI review)
+# Add tests
 # Upload in testflight to test UI/UX

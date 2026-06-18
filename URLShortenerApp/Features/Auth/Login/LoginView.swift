@@ -6,30 +6,24 @@ struct LoginView: View {
     @State private var showForgotPassword = false
 
     var body: some View {
-        ZStack {
-            Color.appBackground.ignoresSafeArea()
+        AuthScreenScaffold {
+            Spacer()
 
-            VStack(spacing: 0) {
-                Spacer()
+            AuthHeader(
+                title: "LinkShort",
+                subtitle: "Precision link management \nat your fingertips."
+            )
+            .staggeredAppear(0)
 
-                AuthHeader(
-                    title: "LinkShort",
-                    subtitle: "Precision link management \nat your fingertips."
-                )
-                .staggeredAppear(0)
+            Spacer().frame(height: 48)
 
-                Spacer().frame(height: 48)
+            LoginFormSection(viewModel: viewModel, showForgotPassword: $showForgotPassword)
+                .staggeredAppear(1)
 
-                LoginFormSection(viewModel: viewModel, showForgotPassword: $showForgotPassword)
-                    .staggeredAppear(1)
+            Spacer()
 
-                Spacer()
-
-                LoginBottomSection(viewModel: viewModel, showRegister: $showRegister)
-                    .staggeredAppear(2)
-            }
-            .padding(.horizontal, 20)
-            .padding(.bottom, 32)
+            LoginBottomSection(viewModel: viewModel, showRegister: $showRegister)
+                .staggeredAppear(2)
         }
         .navigationBarHidden(true)
         .navigationDestination(isPresented: $showRegister) { RegisterView() }

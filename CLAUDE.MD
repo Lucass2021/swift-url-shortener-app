@@ -152,10 +152,22 @@ Never use `Color(.systemBackground)` or hardcoded hex values outside this file.
 
 ---
 
+## Comments
+
+**Do not write comments in the code.** Write code that is self-explanatory through clear naming instead.
+
+- No explanatory comments, no section banners, no "what each part does" notes inside source files.
+- When something needs explaining, put the explanation in the **chat response**, not in the code.
+- Exception: only keep a comment when it documents a non-obvious *why* that the code itself cannot express (e.g. a workaround for an API bug or a deliberate edge-case decision).
+
+---
+
 ## Explaining Swift to This Developer
 
+Explanations live in the chat response — never as comments in the code (see Comments above).
+
 - Always frame new concepts relative to React Native equivalents first, then explain the Swift specifics.
-- When showing code, explain **what each part does** — don't assume Swift knowledge.
+- When showing code, explain **what each part does** in the chat — don't assume Swift knowledge.
 - When a modifier chain is long, briefly note what each modifier adds.
 - `private var` computed properties in SwiftUI are equivalent to sub-components defined inside a React component — they keep the `body` clean without needing a new file.
 - `some View` in return types means "a specific view type that Swift figures out for you" — like TypeScript's `infer`.

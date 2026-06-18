@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct AppLinksSection: View {
-    let viewModel: AppViewModel
+struct HomeLinksSection: View {
+    let viewModel: HomeViewModel
     @Binding var selectedLink: Link?
     @State private var linkToDelete: Link?
 
