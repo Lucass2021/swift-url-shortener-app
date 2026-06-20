@@ -8,7 +8,9 @@ struct Link: Decodable, Identifiable, Hashable {
     let expiresAt: Date?
     let isProtected: Bool
 
-    var id: String { code }
+    var id: String {
+        code
+    }
 }
 
 struct LinkStats: Decodable {

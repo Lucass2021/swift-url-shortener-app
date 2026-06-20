@@ -57,11 +57,11 @@ struct CreateLinkFormSection: View {
                 viewModel.passcodeEnabled = false
                 viewModel.passcode = ""
             }
-        }) {
+        }, content: {
             SetPasscodeSheet(passcode: $viewModel.passcode) {
                 showPasscodeSheet = false
             }
-        }
+        })
     }
 }
 

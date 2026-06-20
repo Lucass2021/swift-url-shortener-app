@@ -12,11 +12,11 @@ struct HomeService: HomeServicing {
     static let live = HomeService()
 
     func fetchMyLinks() async throws -> [Link] {
-        return try await APIClient.shared.request(.myLinks)
+        try await APIClient.shared.request(.myLinks)
     }
 
     func shortenLink(_ request: ShortenRequest) async throws -> ShortenResponse {
-        return try await APIClient.shared.request(.shortenLink, body: request)
+        try await APIClient.shared.request(.shortenLink, body: request)
     }
 
     func deleteLink(code: String) async throws {
@@ -24,11 +24,11 @@ struct HomeService: HomeServicing {
     }
 
     func fetchLinkStats(code: String) async throws -> LinkStats {
-        return try await APIClient.shared.request(.linkStats(code: code))
+        try await APIClient.shared.request(.linkStats(code: code))
     }
 
     func fetchMe() async throws -> User {
-        return try await APIClient.shared.request(.me)
+        try await APIClient.shared.request(.me)
     }
 }
 

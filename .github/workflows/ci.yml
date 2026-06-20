@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install tools
+        run: brew install swiftformat swiftlint
+
+      - name: Format check
+        run: swiftformat --lint .
+
+      - name: Lint
+        run: swiftlint lint --strict
+
+      - name: Build & Test
+        run: |
+          xcodebuild test \
+            -project URLShortenerApp.xcodeproj \
+            -scheme URLShortenerApp \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+            -quiet

@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct SkeletonBar: View {
-    var width: CGFloat? = nil
+    var width: CGFloat?
     var height: CGFloat = 16
     var cornerRadius: CGFloat = 6
 

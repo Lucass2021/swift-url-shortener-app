@@ -22,8 +22,8 @@ private struct NestErrorBody: Decodable {
 
         var text: String {
             switch self {
-            case let .single(string): return string
-            case let .multiple(strings): return strings.first ?? "Request failed"
+            case let .single(string): string
+            case let .multiple(strings): strings.first ?? "Request failed"
             }
         }
     }
@@ -32,16 +32,26 @@ private struct NestErrorBody: Decodable {
 actor APIClient {
     static let shared = APIClient()
 
-    nonisolated private let baseURL = Config.baseURL
-    private let session = URLSession.shared
+    private nonisolated let baseURL = Config.baseURL
+    private let session: URLSession
     private var refreshTask: Task<AuthTokens, Error>?
     private var onRefreshFailure: (@Sendable () -> Void)?
 
-    private static let iso8601: ISO8601DateFormatter = {
+    private static let iso8601WithFractional: ISO8601DateFormatter = {
         let formatter = ISO8601DateFormatter()
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return formatter
     }()
+
+    private static let iso8601Plain: ISO8601DateFormatter = {
+        let formatter = ISO8601DateFormatter()
+        formatter.formatOptions = [.withInternetDateTime]
+        return formatter
+    }()
+
+    private static func parseISO8601(_ string: String) -> Date? {
+        iso8601WithFractional.date(from: string) ?? iso8601Plain.date(from: string)
+    }
 
     private let encoder = JSONEncoder()
     private let decoder: JSONDecoder = {
@@ -49,7 +59,7 @@ actor APIClient {
         jsonDecoder.dateDecodingStrategy = .custom { decoder in
             let container = try decoder.singleValueContainer()
             let string = try container.decode(String.self)
-            guard let date = APIClient.iso8601.date(from: string) else {
+            guard let date = APIClient.parseISO8601(string) else {
                 throw DecodingError.dataCorruptedError(
                     in: container,
                     debugDescription: "Invalid date: \(string)"
@@ -60,7 +70,9 @@ actor APIClient {
         return jsonDecoder
     }()
 
-    private init() {}
+    init(session: URLSession = .shared) {
+        self.session = session
+    }
 
     func setRefreshFailureHandler(_ handler: @escaping @Sendable () -> Void) {
         onRefreshFailure = handler
@@ -109,7 +121,11 @@ actor APIClient {
         }
     }
 
-    private func perform<T: Decodable>(_ endpoint: Endpoint, body: Encodable? = nil, token: String? = nil) async throws -> T {
+    private func perform<T: Decodable>(
+        _ endpoint: Endpoint,
+        body: Encodable? = nil,
+        token: String? = nil
+    ) async throws -> T {
         guard var urlRequest = endpoint.urlRequest(baseURL: baseURL) else {
             throw APIError.networkFailure
         }

@@ -22,10 +22,10 @@ class HomeViewModel {
 
     var activeLinksCount: Int {
         let now = Date.now
-        return links.filter { link in
+        return links.count(where: { link in
             guard let expiresAt = link.expiresAt else { return true }
             return expiresAt > now
-        }.count
+        })
     }
 
     func load() async {
@@ -34,7 +34,7 @@ class HomeViewModel {
         do {
             links = try await service.fetchMyLinks()
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load links."
+            errorMessage = error.userMessage(fallback: "Failed to load links.")
         }
         isLoading = false
     }
@@ -46,7 +46,7 @@ class HomeViewModel {
             try await service.deleteLink(code: link.code)
             links.removeAll { $0.id == link.id }
         } catch {
-            deleteError = (error as? APIError)?.errorDescription ?? "Failed to delete link."
+            deleteError = error.userMessage(fallback: "Failed to delete link.")
         }
     }
 }

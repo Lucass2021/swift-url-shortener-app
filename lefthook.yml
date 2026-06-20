@@ -1,0 +1,21 @@
+pre-commit:
+  parallel: false
+  commands:
+    format:
+      glob: "*.swift"
+      run: swiftformat {staged_files}
+      stage_fixed: true
+    lint:
+      glob: "*.swift"
+      run: swiftlint lint --quiet --strict {staged_files}
+
+pre-push:
+  commands:
+    test:
+      glob: "*.swift"
+      run: |
+        xcodebuild test \
+          -project URLShortenerApp.xcodeproj \
+          -scheme URLShortenerApp \
+          -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
+          -quiet

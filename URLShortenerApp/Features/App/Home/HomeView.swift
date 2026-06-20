@@ -12,7 +12,7 @@ struct HomeView: View {
             ZStack {
                 Color.appBackgroundApp.ignoresSafeArea()
 
-                if viewModel.isLoading && viewModel.links.isEmpty {
+                if viewModel.isLoading, viewModel.links.isEmpty {
                     HomeSkeletonView()
                 } else if let error = viewModel.errorMessage {
                     HomeErrorView(message: error) {

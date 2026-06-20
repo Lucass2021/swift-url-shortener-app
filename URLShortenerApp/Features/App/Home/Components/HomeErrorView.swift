@@ -35,3 +35,10 @@ struct HomeErrorView: View {
         .padding(32)
     }
 }
+
+#Preview {
+    HomeErrorView(
+        message: "Couldn't reach the server. Check your connection and try again."
+    ) {}
+        .background(Color.appBackgroundApp)
+}

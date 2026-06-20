@@ -7,9 +7,9 @@ enum ExpirationOption: String, CaseIterable {
 
     var label: String {
         switch self {
-        case .sevenDays: return "7 Days"
-        case .thirtyDays: return "30 Days"
-        case .never: return "Never"
+        case .sevenDays: "7 Days"
+        case .thirtyDays: "30 Days"
+        case .never: "Never"
         }
     }
 }
@@ -57,7 +57,7 @@ class CreateLinkViewModel {
             _ = try await service.shortenLink(request)
             didSucceed = true
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? "Failed to create link."
+            errorMessage = error.userMessage(fallback: "Failed to create link.")
         }
     }
 }

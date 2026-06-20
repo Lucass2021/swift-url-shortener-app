@@ -62,7 +62,7 @@ class ExampleViewModel {
         do {
             data = try await ExampleService.fetchItems()
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? "Something went wrong."
+            errorMessage = error.userMessage(fallback: "Something went wrong.")
         }
     }
 }
@@ -70,7 +70,7 @@ class ExampleViewModel {
 
 - `@MainActor` — all UI updates on the main thread. Required for `@Observable` classes that drive UI.
 - `defer` — equivalent to `finally {}` in JS. Guarantees cleanup even if an error is thrown.
-- `(error as? APIError)?.errorDescription` — safe cast, same idea as `error instanceof APIError`.
+- `error.userMessage(fallback:)` — shared helper that maps `APIError` to a friendly message (see Error Handling below).
 
 ---
 
@@ -124,6 +124,43 @@ Define endpoints in `Core/Network/Endpoint.swift` — add a case to the enum and
 
 Never call `URLSession` directly from a ViewModel or View.
 
+`APIClient` is an `actor`. Its `URLSession` is injectable (`init(session:)`) so tests can
+drive it with a `URLProtocol` stub — production code uses `APIClient.shared`.
+
+---
+
+## Configuration / Environment
+
+The API base URL is **not hardcoded**. It comes from `.xcconfig` files (the `.env` of iOS):
+
+- `Config/Debug.xcconfig` → localhost · `Config/Release.xcconfig` → overridable.
+- `Config/Local.xcconfig` (gitignored) overrides the URL per-machine (e.g. an ngrok URL for TestFlight).
+- The value flows `xcconfig → Info.plist ($(API_BASE_URL)) → Config.swift → APIClient`.
+
+In code, always read the URL via `Config.baseURL`. Never hardcode URLs elsewhere.
+
+---
+
+## Error Handling
+
+ViewModels convert thrown errors to a user-facing string with the shared helper, never
+by re-casting `APIError` inline:
+
+```swift
+} catch {
+    errorMessage = error.userMessage(fallback: "Failed to load links.")
+}
+```
+
+`Error.userMessage(fallback:)` lives in `Core/Extensions/Error+UserMessage.swift`.
+
+---
+
+## Validation Messages
+
+Form validation strings live in `Core/ValidationMessage.swift` — never inline string
+literals. Reuse `ValidationMessage.passwordTooShort`, `.emailInvalid`, etc.
+
 ---
 
 ## Tokens and Auth
@@ -149,6 +186,29 @@ All app colors are in `Core/Extensions/Color+App.swift`. Always use semantic nam
 | `appDestructive` | delete, sign out — red |
 
 Never use `Color(.systemBackground)` or hardcoded hex values outside this file.
+
+---
+
+## Testing
+
+Tests use **Swift Testing** (`@Test` / `#expect`, not XCTest) and live in
+`URLShortenerAppTests/`, mirroring the app's folder structure (`Features/Auth/Login/…`).
+
+- Inject mocks via the service protocols (`AuthServicing`, `HomeServicing`). Mocks live in
+  `URLShortenerAppTests/Support/` and reuse the preview sample data (`Link.samples`).
+- ViewModels and logic get real assertions; SwiftUI views get render smoke tests via
+  `ImageRenderer` (verify they don't crash, not pixel output).
+- The `APIClient` is tested with a `URLProtocol` stub — no real network.
+- Force-unwraps are acceptable **only in test code**, never in the app target.
+
+---
+
+## Quality Tooling
+
+- **SwiftFormat** (`.swiftformat`) = formatting · **SwiftLint** (`.swiftlint.yml`) = lint rules.
+- **Lefthook** (`lefthook.yml`): format + lint on commit, tests on push.
+- Keep the tree lint-clean — CI runs `swiftlint --strict` and fails on any violation.
+- Don't add comments to satisfy a linter; fix the code instead (see Comments).
 
 ---
 

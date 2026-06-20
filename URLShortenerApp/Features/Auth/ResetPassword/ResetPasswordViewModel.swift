@@ -18,8 +18,8 @@ class ResetPasswordViewModel {
 
     var passwordError: String? {
         guard submitted else { return nil }
-        if password.isEmpty { return "Password is required" }
-        if password.count < 6 { return "At least 6 characters" }
+        if password.isEmpty { return ValidationMessage.passwordRequired }
+        if password.count < 6 { return ValidationMessage.passwordTooShort }
         return nil
     }
 
@@ -33,7 +33,7 @@ class ResetPasswordViewModel {
             authStore.pendingToast = "Password changed successfully"
             authStore.didResetPassword = true
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            errorMessage = error.userMessage()
         }
     }
 }

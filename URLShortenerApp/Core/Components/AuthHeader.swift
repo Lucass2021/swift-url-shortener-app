@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AuthHeader: View {
     let title: String
-    var subtitle: String? = nil
+    var subtitle: String?
 
     var body: some View {
         VStack(spacing: 20) {

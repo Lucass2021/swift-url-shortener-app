@@ -24,7 +24,7 @@ struct HomeSkeletonView: View {
                 .padding(.bottom, 20)
 
                 VStack(spacing: 16) {
-                    ForEach(0..<4, id: \.self) { _ in
+                    ForEach(0 ..< 4, id: \.self) { _ in
                         LinkRowView(link: placeholder)
                             .redacted(reason: .placeholder)
                     }

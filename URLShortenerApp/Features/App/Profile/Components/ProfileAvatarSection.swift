@@ -5,11 +5,24 @@ struct ProfileAvatarSection: View {
     let email: String
     var isLoading: Bool = false
 
+    private var initials: String {
+        let letters = name
+            .split(separator: " ")
+            .prefix(2)
+            .compactMap(\.first)
+
+        return letters.isEmpty ? "?" : letters.map(String.init).joined().uppercased()
+    }
+
     var body: some View {
         VStack(spacing: 8) {
-            Image(systemName: "person.circle.fill")
-                .font(.system(size: 88))
-                .foregroundStyle(Color.appPrimary)
+            Text(initials)
+                .font(.system(size: 36, weight: .semibold, design: .rounded))
+                .foregroundStyle(.white)
+                .frame(width: 88, height: 88)
+                .background(Circle().fill(Color.appPrimary.gradient))
+                .overlay(Circle().stroke(Color.white.opacity(0.15), lineWidth: 1))
+                .redacted(reason: isLoading ? .placeholder : [])
 
             if isLoading {
                 SkeletonBar(width: 140, height: 24)

@@ -18,7 +18,7 @@ enum APIError: LocalizedError {
         case 410: self = .linkExpired
         case 429: self = .rateLimited(retryAfter: retryAfter)
         case 500...: self = .serverError
-        default:   self = .unknown(statusCode: statusCode)
+        default: self = .unknown(statusCode: statusCode)
         }
     }
 
@@ -28,7 +28,7 @@ enum APIError: LocalizedError {
             return "Session expired. Please sign in again."
         case .linkExpired:
             return "This link has expired."
-        case .rateLimited(let retryAfter):
+        case let .rateLimited(retryAfter):
             if let seconds = retryAfter {
                 return "Too many requests. Try again in \(seconds)s."
             }
@@ -41,9 +41,9 @@ enum APIError: LocalizedError {
             return "No internet connection. Check your network and try again."
         case .decodingFailure:
             return "Unexpected response from the server."
-        case .badRequest(let message):
+        case let .badRequest(message):
             return message
-        case .unknown(let code):
+        case let .unknown(code):
             return "Unexpected error (code \(code))."
         }
     }

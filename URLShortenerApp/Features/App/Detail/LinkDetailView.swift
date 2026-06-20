@@ -69,7 +69,9 @@ struct LinkDetailView: View {
             Text("This action cannot be undone.")
         }
         .onChange(of: viewModel.didDelete) { _, deleted in
-            if deleted { onDelete(); dismiss() }
+            if deleted { onDelete()
+                dismiss()
+            }
         }
         .toast(message: $viewModel.errorMessage, style: .error)
     }

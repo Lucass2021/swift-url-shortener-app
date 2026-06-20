@@ -6,8 +6,8 @@ enum ToastStyle {
 
     var color: Color {
         switch self {
-        case .error:   return Color.red.opacity(0.9)
-        case .success: return Color.green.opacity(0.85)
+        case .error: Color.red.opacity(0.9)
+        case .success: Color.green.opacity(0.85)
         }
     }
 }

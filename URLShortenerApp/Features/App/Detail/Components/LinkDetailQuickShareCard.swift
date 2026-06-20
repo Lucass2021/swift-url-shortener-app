@@ -1,5 +1,5 @@
-import SwiftUI
 import CoreImage.CIFilterBuiltins
+import SwiftUI
 
 struct LinkDetailQuickShareCard: View {
     let qrImage: UIImage

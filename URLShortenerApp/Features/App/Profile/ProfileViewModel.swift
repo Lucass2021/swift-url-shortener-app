@@ -19,7 +19,7 @@ class ProfileViewModel {
         do {
             user = try await service.fetchMe()
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? "Failed to load profile."
+            errorMessage = error.userMessage(fallback: "Failed to load profile.")
         }
     }
 }

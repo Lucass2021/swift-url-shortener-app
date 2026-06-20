@@ -44,3 +44,13 @@ struct HomeLinksSection: View {
         }
     }
 }
+
+#Preview {
+    @Previewable @State var selectedLink: Link?
+    List {
+        HomeLinksSection(viewModel: .preview, selectedLink: $selectedLink)
+    }
+    .listStyle(.plain)
+    .scrollContentBackground(.hidden)
+    .background(Color.appBackgroundApp)
+}

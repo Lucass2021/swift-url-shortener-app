@@ -1,0 +1,6 @@
+// Copy this file to `Local.xcconfig` (same folder) and set your API URL.
+// `Local.xcconfig` is gitignored — it is your personal ".env".
+// Used by Release builds (TestFlight). The `$()` keeps `//` from being a comment.
+//
+// Example with an ngrok tunnel pointing at your local NestJS API:
+API_BASE_URL = https:/$()/your-subdomain.ngrok-free.app

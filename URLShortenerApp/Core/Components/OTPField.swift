@@ -14,11 +14,11 @@ struct OTPField: View {
                 .opacity(0)
                 .frame(width: 1, height: 1)
                 .onChange(of: code) { _, newValue in
-                    code = String(newValue.filter { $0.isNumber }.prefix(length))
+                    code = String(newValue.filter(\.isNumber).prefix(length))
                 }
 
             HStack(spacing: 12) {
-                ForEach(0..<length, id: \.self) { index in
+                ForEach(0 ..< length, id: \.self) { index in
                     digitBox(at: index)
                 }
             }

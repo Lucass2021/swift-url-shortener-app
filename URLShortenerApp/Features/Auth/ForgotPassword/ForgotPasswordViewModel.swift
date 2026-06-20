@@ -17,8 +17,8 @@ class ForgotPasswordViewModel {
 
     var emailError: String? {
         guard submitted else { return nil }
-        if email.trimmingCharacters(in: .whitespaces).isEmpty { return "Email is required" }
-        if !email.contains("@") || !email.contains(".") { return "Enter a valid email" }
+        if email.trimmingCharacters(in: .whitespaces).isEmpty { return ValidationMessage.emailRequired }
+        if !email.contains("@") || !email.contains(".") { return ValidationMessage.emailInvalid }
         return nil
     }
 
@@ -31,7 +31,7 @@ class ForgotPasswordViewModel {
             authStore.pendingToast = try await service.forgotPassword(email: email)
             showVerifyCode = true
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            errorMessage = error.userMessage()
         }
     }
 }

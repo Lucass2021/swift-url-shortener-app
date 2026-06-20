@@ -5,8 +5,8 @@ struct AuthTextField: View {
     let icon: String
     @Binding var text: String
     var isSecure: Bool = false
-    var contentType: UITextContentType? = nil
-    var error: String? = nil
+    var contentType: UITextContentType?
+    var error: String?
 
     @State private var isRevealed = false
     @FocusState private var isFocused: Bool
@@ -27,7 +27,7 @@ struct AuthTextField: View {
                     .foregroundStyle(Color.appTextSecondary)
                     .frame(width: 20)
 
-                if isSecure && !isRevealed {
+                if isSecure, !isRevealed {
                     SecureField(text: $text, prompt: Text(placeholder).foregroundStyle(.white)) {}
                         .focused($isFocused)
                         .textContentType(contentType)

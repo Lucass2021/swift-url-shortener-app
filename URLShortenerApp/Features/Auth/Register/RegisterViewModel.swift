@@ -19,27 +19,27 @@ class RegisterViewModel {
 
     var nameError: String? {
         guard submitted else { return nil }
-        if name.trimmingCharacters(in: .whitespaces).isEmpty { return "Full name is required" }
+        if name.trimmingCharacters(in: .whitespaces).isEmpty { return ValidationMessage.nameRequired }
         return nil
     }
 
     var emailError: String? {
         guard submitted else { return nil }
-        if email.trimmingCharacters(in: .whitespaces).isEmpty { return "Email is required" }
-        if !email.contains("@") || !email.contains(".") { return "Enter a valid email" }
+        if email.trimmingCharacters(in: .whitespaces).isEmpty { return ValidationMessage.emailRequired }
+        if !email.contains("@") || !email.contains(".") { return ValidationMessage.emailInvalid }
         return nil
     }
 
     var passwordError: String? {
         guard submitted else { return nil }
-        if password.isEmpty { return "Password is required" }
-        if password.count < 6 { return "At least 6 characters" }
+        if password.isEmpty { return ValidationMessage.passwordRequired }
+        if password.count < 6 { return ValidationMessage.passwordTooShort }
         return nil
     }
 
     var confirmPasswordError: String? {
         guard submitted else { return nil }
-        if confirmPassword != password { return "Passwords do not match" }
+        if confirmPassword != password { return ValidationMessage.passwordsDoNotMatch }
         return nil
     }
 
@@ -52,7 +52,7 @@ class RegisterViewModel {
             let tokens = try await service.register(name: name, email: email, password: password)
             authStore.saveTokens(tokens)
         } catch {
-            errorMessage = (error as? APIError)?.errorDescription ?? error.localizedDescription
+            errorMessage = error.userMessage()
         }
     }
 }

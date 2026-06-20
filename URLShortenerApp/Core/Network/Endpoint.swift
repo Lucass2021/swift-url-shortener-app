@@ -21,28 +21,28 @@ enum Endpoint {
 
     var path: String {
         switch self {
-        case .register: return "/auth/register"
-        case .login: return "/auth/login"
-        case .refresh: return "/auth/refresh"
-        case .forgotPassword: return "/auth/forgot-password"
-        case .verifyResetCode: return "/auth/verify-reset-code"
-        case .resetPassword: return "/auth/reset-password"
-        case .me: return "/auth/me"
-        case .shortenLink: return "/links/shorten"
-        case .myLinks: return "/links/me/links"
-        case let .deleteLink(code): return "/links/\(code)"
-        case let .linkStats(code): return "/\(code)/stats"
+        case .register: "/auth/register"
+        case .login: "/auth/login"
+        case .refresh: "/auth/refresh"
+        case .forgotPassword: "/auth/forgot-password"
+        case .verifyResetCode: "/auth/verify-reset-code"
+        case .resetPassword: "/auth/reset-password"
+        case .me: "/auth/me"
+        case .shortenLink: "/links/shorten"
+        case .myLinks: "/links/me/links"
+        case let .deleteLink(code): "/links/\(code)"
+        case let .linkStats(code): "/\(code)/stats"
         }
     }
 
     var method: HTTPMethod {
         switch self {
         case .register, .login, .refresh, .shortenLink, .forgotPassword, .verifyResetCode, .resetPassword:
-            return .post
+            .post
         case .deleteLink:
-            return .delete
+            .delete
         case .myLinks, .linkStats, .me:
-            return .get
+            .get
         }
     }
 
@@ -50,9 +50,9 @@ enum Endpoint {
         switch self {
         case .register, .login, .refresh,
              .forgotPassword, .verifyResetCode, .resetPassword:
-            return false
+            false
         case .shortenLink, .myLinks, .deleteLink, .linkStats, .me:
-            return true
+            true
         }
     }
 

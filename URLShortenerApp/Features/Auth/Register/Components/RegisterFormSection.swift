@@ -45,12 +45,15 @@ struct RegisterFormSection: View {
                 )
             }
 
-            Text("By creating an account, you agree to our \(Text("Terms of Service").bold().foregroundStyle(Color.appPrimary)) and \(Text("Privacy Policy").bold().foregroundStyle(Color.appPrimary))")
-                .font(.default)
-                .foregroundStyle(Color.appTextSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.vertical, 4)
-                .frame(maxWidth: .infinity)
+            Text(
+                "By creating an account, you agree to our **[Terms of Service](https://github.com/Lucass2021/nest-api-url-shortener-context)** and **[Privacy Policy](https://github.com/Lucass2021/nest-api-url-shortener-context)**"
+            )
+            .font(.default)
+            .tint(Color.appPrimary)
+            .foregroundStyle(Color.appTextSecondary)
+            .multilineTextAlignment(.center)
+            .padding(.vertical, 4)
+            .frame(maxWidth: .infinity)
         }
     }
 }

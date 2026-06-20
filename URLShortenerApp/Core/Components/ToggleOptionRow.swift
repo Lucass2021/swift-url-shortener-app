@@ -34,7 +34,13 @@ struct ToggleOptionRow: View {
 }
 
 #Preview {
-    ToggleOptionRow(icon: "bell.fill", iconColor: .orange, title: "Notifications", subtitle: "Receive updates and alerts", isOn: .constant(true))
-        .padding()
-        .background(Color.appBackground)
+    ToggleOptionRow(
+        icon: "bell.fill",
+        iconColor: .orange,
+        title: "Notifications",
+        subtitle: "Receive updates and alerts",
+        isOn: .constant(true)
+    )
+    .padding()
+    .background(Color.appBackground)
 }

@@ -14,11 +14,14 @@ struct WelcomeBottomSection: View {
                 showRegister = true
             }
 
-            Text("By continuing, you agree to our \(Text("Terms of Service").bold().underline())")
-                .font(.caption)
-                .foregroundStyle(Color.appTextSecondary)
-                .multilineTextAlignment(.center)
-                .padding(.top, 4)
+            Text(
+                "By continuing, you agree to our **[Terms of Service](https://github.com/Lucass2021/nest-api-url-shortener-context)**"
+            )
+            .font(.caption)
+            .tint(Color.appPrimary)
+            .foregroundStyle(Color.appTextSecondary)
+            .multilineTextAlignment(.center)
+            .padding(.top, 4)
         }
     }
 }

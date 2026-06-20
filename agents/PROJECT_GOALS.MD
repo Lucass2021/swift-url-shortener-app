@@ -208,3 +208,21 @@ Paste this document and add one of the instructions below:
 
 **For Swift questions:**
 > "Based on this context, explain how `@Observable` works and how to use it in this project's ViewModels."
+
+---
+
+## Implementation status & additions
+
+The core app (milestones 1–9) is built. Beyond the original plan, the project also gained:
+
+- **Environment config (`.env`-style):** the API base URL is no longer hardcoded. It comes
+  from `.xcconfig` files (`Config/Debug.xcconfig`, `Config/Release.xcconfig`, and a
+  gitignored `Config/Local.xcconfig` for per-machine overrides such as an ngrok URL for
+  TestFlight), injected through `Info.plist` and read via `Config.baseURL`.
+- **Test suite (Swift Testing):** ViewModels, models, and the `APIClient` token-refresh
+  flow (via a `URLProtocol` stub) are covered. Tests live in `URLShortenerAppTests/`.
+- **Quality tooling:** SwiftFormat, SwiftLint, Lefthook git hooks, and a GitHub Actions CI.
+- **Robustness:** ISO8601 date decoding tolerates dates with or without fractional seconds;
+  Keychain items are stored `ThisDeviceOnly`; error/validation strings are centralized.
+
+Remaining: passcode-protect backend work (optional extra) and TestFlight upload.

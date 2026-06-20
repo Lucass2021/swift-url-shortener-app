@@ -35,3 +35,12 @@ struct HomeDashboardSection: View {
         )
     }
 }
+
+#Preview {
+    List {
+        HomeDashboardSection(viewModel: .preview)
+    }
+    .listStyle(.plain)
+    .scrollContentBackground(.hidden)
+    .background(Color.appBackgroundApp)
+}
